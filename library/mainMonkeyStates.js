@@ -48,7 +48,7 @@ export class RunningRight extends State {
     }
 }
 
-export class JumpingRight extends State {
+export class JumpingRight extends State { 
     constructor(player){
         super('JUMPING_RIGHT');
         this.player = player;
