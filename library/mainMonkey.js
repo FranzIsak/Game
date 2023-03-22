@@ -20,7 +20,7 @@ export class Player{
         this.frameX = 0;
         this.frameY = 2;
         this.maxFrame;
-        this.fps = 60;
+        this.fps = 5;
         // Calculate the actual FPS
         this.frameInterval = 1000/this.fps;
         // this.frameTimer will cycle through frameInterval then return to 0
