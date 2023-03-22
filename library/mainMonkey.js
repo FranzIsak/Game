@@ -4,11 +4,6 @@ import { Idle, RunningRight, JumpingRight, FallingRight } from './mainMonkeyStat
 
 export class Player{
     constructor(game){
-        // this.cropY = {idle: 0,
-        //     jumpLeft: 350,
-        //     jumpRight: 742,
-        //     runLeft: 1134,
-        //     runRight: 1502,}
         this.game = game;
         this.width = 392;
         this.height = 392;
@@ -31,15 +26,15 @@ export class Player{
         this.currentState = this.states[0];
         this.currentState.enter();
 
-        // TEMP ANIMATION //
+        // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
-        // TEMP ANIMATION //
 
     }
     update(input, deltaTime){
         
         // Check current input to see if it matches the current state
         this.currentState.handleInput(input);
+        
         // Horizontal Movement
         this.x += this.speed;
         if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
@@ -49,12 +44,13 @@ export class Player{
         // Make Player unable to go offscreen
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
+        
         // Vertical Movement
         this.y += this.vy;
         if(!this.onGround()) this.vy += this.weight;
         else this.vy = 0;
-        // sprite animation
 
+        // sprite animation
         if (this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
             if (this.frameX < this.maxFrame) this.frameX++;

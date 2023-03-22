@@ -2,9 +2,6 @@
 import { Player } from "./library/mainMonkey.js";
 import { InputHandler } from "./library/input.js";
 
-
-
- 
 window.addEventListener('load', function(){
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
@@ -28,12 +25,13 @@ window.addEventListener('load', function(){
     }
 
     const game = new Game(canvas.width, canvas.height);
+    // FPS control
     let lastTime = 0;
 
     function animate(timeStamp){
+        // FPS control
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
-        // console.log(deltaTime);
         
         ctx.clearRect(0,0,canvas.width, canvas.height);
         game.update(deltaTime);
@@ -41,5 +39,4 @@ window.addEventListener('load', function(){
         requestAnimationFrame(animate);
     }
     animate(0);
-
 });
