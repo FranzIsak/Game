@@ -19,11 +19,14 @@ export class Layer {
         
     }
     update(){
-        this.playerX = -this.player.x;
+        // console.log(this.player.x);
+        // if(this.player.x >=-200){
+            this.playerX = -this.player.x;
+        // }
         this.playerY = -this.player.y;
     }
     draw(context){
         this.context = context;
-        this.context.drawImage(this.pinkBackground, this.playerX, -250);
+        this.context.drawImage(this.pinkBackground, this.playerX, -230);
     }
 }

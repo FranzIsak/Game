@@ -16,25 +16,27 @@ window.addEventListener('load', function(){
     class Game {
         constructor(width, height){
             
-            console.log(this.allPlatforms);
+            // console.log(this.allPlatforms);
             this.width = canvas.width;
             this.height = canvas.height;
-            this.groundMargin = 74; // eins og #player { margin-bottom: 74px;}
+            this.groundMargin = 30; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
             this.input = new InputHandler(this);
             // Test background //
             this.layer = new Layer(this);
             // Test background //
 
-            // this.allPlatforms = [];
-            // platformLocations.forEach(platform => {
-            //     this.allPlatforms.push(new PlatformHandler(ctx, this.player, platform));
-            // })
+            this.allPlatforms = [];
+            platformLocations.forEach(platform => {
+                this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
+            })
         }
         update(deltaTime){
-            // this.allPlatforms.forEach(platform => {
-            //     platform.update();
-            // });
+            let tempArray = [];
+            this.allPlatforms.forEach(platform => {
+                tempArray.push(platform.update());
+            });
+            if(!tempArray.includes(true)) this.player.currentGround = this.player.mainGround;
             this.player.update(this.input.keys, deltaTime);
             // Test background update //
             this.layer.update();
@@ -44,9 +46,9 @@ window.addEventListener('load', function(){
             // Test background draw //
             this.layer.draw(ctx);
             // Test background draw //
-            // this.allPlatforms.forEach(platform => {
-            //     platform.draw();
-            // });
+            this.allPlatforms.forEach(platform => {
+                platform.draw();
+            });
             // console.log(this.allPlatforms);
 
             this.player.draw(context);

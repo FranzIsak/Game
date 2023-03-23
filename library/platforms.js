@@ -1,18 +1,15 @@
+/** @type {HTMLCanvasElement} **/
+
 // Export to main.js to use it when defining a class item for PlatformHandler
 export const platformLocations = [
-    // {
-    //     x: 100,
-    //     y: 100,
-    //     width: 500,
-    // },
-    // {
-    //     x: 100,
-    //     y: 200,
-    //     width: 500,
-    // },
     {
-        x: 100,
+        x: 500,
         y: 500,
+        width: 500,
+    },
+    {
+        x: 1000,
+        y: 300,
         width: 500,
     },
 ]
@@ -21,7 +18,8 @@ export const platformLocations = [
 
 // Pull each item inside platformLocations from main.js that was exported from platforms.js
 export class PlatformHandler{
-    constructor(ctx, player, platformInfo){
+    constructor(game, ctx, player, platformInfo){
+        this.game = game;
         this.ctx = ctx
         this.player = player;
         this.lineWidth = 5;
@@ -33,18 +31,35 @@ export class PlatformHandler{
     update(){
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
-        this.playerX = this.player.x;
-        this.playerY = this.player.y;
-
-
-        if(this.playerX >= this.drawX && this.playerX <= this.drawEndX && this.playerY >= this.y) this.player.currentGround = this.y;
-        // else this.player.currentGround = this.player.mainGround;
         
-        
+        this.playerOffsetX = 92;
+        this.playerOffsetY = 5;
+        this.playerStartX = this.player.monkeyX + this.playerOffsetX;
+        this.playerStartY = this.player.y;
+        this.playerWidth = this.player.width - this.playerOffsetX*2;
+        this.playerHeight = this.player.height;
+        this.playerEndX = this.playerStartX + this.playerWidth;
+        this.playerFeetLocation = this.playerStartY + this.playerHeight;
 
-        console.log(this.drawX); 
+        if(this.playerEndX > this.drawX && this.playerStartX < this.drawEndX && this.playerStartX+this.playerWidth){
+            if(this.y >= this.playerFeetLocation){
+                this.player.currentGround = this.y - this.playerHeight;
+                return true;
+            }
+        } 
+    
+
     }
     draw(){
+        // Rectangle around monkey
+        this.ctx.beginPath();
+        this.ctx.lineWidth = this.lineWidth;
+        this.startY = this.player.y;
+        this.realY = this.player.y+this.player.height;
+        this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
+        this.ctx.stroke();
+
+        // Platforms
         this.ctx.beginPath();
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.moveTo(this.drawX, this.y);
