@@ -15,9 +15,11 @@ export class Player{
         this.frameX = 0;
         this.frameY = 2;
         this.maxFrame;
-        this.fps = 50;
+        this.fps = 200;
+        
         // Calculate the actual FPS
         this.frameInterval = 1000/this.fps;
+
         // this.frameTimer will cycle through frameInterval then return to 0
         this.frameTimer = 0;
         this.speed = 0;
@@ -28,7 +30,6 @@ export class Player{
 
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
-
     }
     update(input, deltaTime){
         

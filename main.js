@@ -1,6 +1,7 @@
 // import (MainMonkey) from 
 import { Player } from "./library/mainMonkey.js";
 import { InputHandler } from "./library/input.js";
+import { Layer } from "./library/background.js";
 
 window.addEventListener('load', function(){
     const canvas = document.getElementById('mainCanvas');
@@ -15,16 +16,29 @@ window.addEventListener('load', function(){
             this.groundMargin = 74; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
             this.input = new InputHandler(this);
+            // Test background //
+            // this.layer = new Layer(this);
+            // Test background //
         }
         update(deltaTime){
             this.player.update(this.input.keys, deltaTime);
+            // Test background update //
+            // this.layer.update();
+            // Test background update //
         }
         draw(context){
+            // Test background draw //
+            // this.layer.draw(ctx);
+            // Test background draw //
+
             this.player.draw(context);
         }
     }
 
     const game = new Game(canvas.width, canvas.height);
+    // TEST ?
+    // TEST ?
+
     // FPS control
     let lastTime = 0;
 
