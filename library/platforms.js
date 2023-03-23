@@ -8,7 +8,22 @@ export const platformLocations = [
         width: 500,
     },
     {
-        x: 1000,
+        x: 5500,
+        y: 600,
+        width: 500,
+    },
+    {
+        x: 6700,
+        y: 500,
+        width: 500,
+    },
+    {
+        x: 6000,
+        y: 400,
+        width: 500,
+    },
+    {
+        x: 7500,
         y: 300,
         width: 500,
     },
