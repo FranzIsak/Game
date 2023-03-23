@@ -54,7 +54,7 @@ export class JumpingRight extends State {
         this.player = player;
     }
     enter(){
-        if (this.player.onGround()) this.player.vy -= 18;
+        if (this.player.onGround()) this.player.vy -= 36 ;
         this.player.infiniteLoop = false;
         this.player.maxFrame = 4;
         this.player.frameX = 0;

@@ -1,6 +1,7 @@
 /** @type {HTMLCanvasElement} **/
 
 import { Idle, RunningRight, JumpingRight, FallingRight } from './mainMonkeyStates.js';
+import { ChangeFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
     constructor(game){
@@ -10,16 +11,14 @@ export class Player{
         this.x = 0;
         this.y = this.game.height-this.height - this.game.groundMargin;
         this.vy = 0;
-        this.weight = 0.5;
+        this.weight = 2;
         this.image = mainMonkeySprite;
         this.frameX = 0;
         this.frameY = 2;
         this.maxFrame;
-        this.fps = 200;
-        
+        this.fps = 20;
         // Calculate the actual FPS
         this.frameInterval = 1000/this.fps;
-
         // this.frameTimer will cycle through frameInterval then return to 0
         this.frameTimer = 0;
         this.speed = 0;
@@ -27,11 +26,18 @@ export class Player{
         this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-
+        
+        // Change fps with option input
+        this.changeFps = new ChangeFps(this);
+        // Change monkey speed
+        this.changeMonkeySpeed = new ChangeMonkeySpeed(this);
+        // Change monkey weight
+        this.changeMonkeySpeed = new ChangeMonkeyWeight(this);
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
     }
     update(input, deltaTime){
+        console.log(this.vy);
         
         // Check current input to see if it matches the current state
         this.currentState.handleInput(input);
