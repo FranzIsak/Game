@@ -73,7 +73,6 @@ export class FallingRight extends State {
         this.player = player;
     }
     enter(){
-        console.log(this.player.frameX);
         this.player.infiniteLoop = true;
         this.player.frameX = 0;
         this.player.maxFrame = 0;

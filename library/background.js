@@ -11,20 +11,19 @@ export class Layer {
         this.playerHeight = this.player.height;
         
         // Start Location of background image
-        this.x = this.pl;
+        this.x = this.player;
         this.y = 0;
 
         this.mainBackground = MainBackground;
+        this.pinkBackground = PinkBackground;
         
     }
     update(){
         this.playerX = -this.player.x;
         this.playerY = -this.player.y;
-        console.log(this.playerX);
-        console.log(this.playerY);
     }
     draw(context){
         this.context = context;
-        this.context.drawImage(this.mainBackground, this.playerX, -250);
+        this.context.drawImage(this.pinkBackground, this.playerX, -250);
     }
 }

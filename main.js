@@ -2,6 +2,10 @@
 import { Player } from "./library/mainMonkey.js";
 import { InputHandler } from "./library/input.js";
 import { Layer } from "./library/background.js";
+import { platformLocations, PlatformHandler } from "./library/platforms.js";
+// console.log(platformLocations[0].test);
+
+
 
 window.addEventListener('load', function(){
     const canvas = document.getElementById('mainCanvas');
@@ -11,25 +15,39 @@ window.addEventListener('load', function(){
     
     class Game {
         constructor(width, height){
+            
+            console.log(this.allPlatforms);
             this.width = canvas.width;
             this.height = canvas.height;
             this.groundMargin = 74; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
             this.input = new InputHandler(this);
             // Test background //
-            // this.layer = new Layer(this);
+            this.layer = new Layer(this);
             // Test background //
+
+            // this.allPlatforms = [];
+            // platformLocations.forEach(platform => {
+            //     this.allPlatforms.push(new PlatformHandler(ctx, this.player, platform));
+            // })
         }
         update(deltaTime){
+            // this.allPlatforms.forEach(platform => {
+            //     platform.update();
+            // });
             this.player.update(this.input.keys, deltaTime);
             // Test background update //
-            // this.layer.update();
+            this.layer.update();
             // Test background update //
         }
         draw(context){
             // Test background draw //
-            // this.layer.draw(ctx);
+            this.layer.draw(ctx);
             // Test background draw //
+            // this.allPlatforms.forEach(platform => {
+            //     platform.draw();
+            // });
+            // console.log(this.allPlatforms);
 
             this.player.draw(context);
         }

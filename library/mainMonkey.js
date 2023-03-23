@@ -6,8 +6,8 @@ import { ChangeFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.
 export class Player{
     constructor(game){
         this.game = game;
-        this.width = 392;
-        this.height = 392;
+        this.width = 294;
+        this.height = 294;
         this.x = 0;
         this.y = this.game.height-this.height - this.game.groundMargin;
         this.vy = 0;
@@ -26,7 +26,8 @@ export class Player{
         this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        
+        this.mainGround = this.game.height - this.height - this.game.groundMargin;
+        this.currentGround = this.mainGround;
         // Change fps with option input
         this.changeFps = new ChangeFps(this);
         // Change monkey speed
@@ -37,7 +38,6 @@ export class Player{
         this.infiniteLoop;
     }
     update(input, deltaTime){
-        console.log(this.vy);
         
         // Check current input to see if it matches the current state
         this.currentState.handleInput(input);
@@ -50,7 +50,7 @@ export class Player{
 
         // Make Player unable to go offscreen
         if (this.x < 0) this.x = 0;
-        if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
+        // if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
         
         // Vertical Movement
         this.y += this.vy;
@@ -62,16 +62,15 @@ export class Player{
             this.frameTimer = 0;
             if (this.frameX < this.maxFrame) this.frameX++;
             else if(this.infiniteLoop)this.frameX = 0;
-            else console.log(this.infiniteLoop);
         } else {
             this.frameTimer += deltaTime;
         }
     }
     draw(context){
-        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, /*this.x*/150, this.y, this.width, this.height);
     }
     onGround(){
-        return this.y >= this.game.height - this.height - this.game.groundMargin;
+        return this.y >= this.currentGround;
     }
     setState(state){
         this.currentState = this.states[state]
