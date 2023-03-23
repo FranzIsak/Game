@@ -3,6 +3,7 @@ import { Player } from "./library/mainMonkey.js";
 import { InputHandler } from "./library/input.js";
 import { Layer } from "./library/background.js";
 import { platformLocations, PlatformHandler } from "./library/platforms.js";
+import { ChangeGameFps } from "./library/htmlHandler.js";
 // console.log(platformLocations[0].test);
 
 
@@ -25,13 +26,15 @@ window.addEventListener('load', function(){
             // Test background //
             this.layer = new Layer(this);
             // Test background //
-
+            this.gameFps = 50;
+            this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
             platformLocations.forEach(platform => {
                 this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
             })
         }
         update(deltaTime){
+            // console.log(this.gameFps)
             let tempArray = [];
             this.allPlatforms.forEach(platform => {
                 tempArray.push(platform.update());
@@ -56,20 +59,22 @@ window.addEventListener('load', function(){
     }
 
     const game = new Game(canvas.width, canvas.height);
-    // TEST ?
-    // TEST ?
-
     // FPS control
     let lastTime = 0;
-
+    
     function animate(timeStamp){
-        // FPS control
+        // FPS control        
         const deltaTime = timeStamp - lastTime;
-        lastTime = timeStamp;
-        
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        game.update(deltaTime);
-        game.draw(ctx);
+        // console.log(deltaTime)
+        // console.log(1000 / game.gameFps)
+        if(deltaTime >= 1000 / game.gameFps){
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            game.update(deltaTime);
+            game.draw(ctx);
+            lastTime = timeStamp;
+            const fps = Math.round(1000 / deltaTime);
+            document.getElementById("fpsValue").innerText = fps;
+        } 
         requestAnimationFrame(animate);
     }
     animate(0);

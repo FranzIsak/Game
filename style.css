@@ -41,6 +41,18 @@ div#mainTitle{
     margin: 0;
     padding-top: 10px;
 }
+#gameFpsSlider{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+    border: 5px solid black;
+}
+#gameFpsSlider p{
+    margin: 0;
+}
 h1{
     text-align: center;
     color: white;

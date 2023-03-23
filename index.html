@@ -16,7 +16,7 @@
     <div id="canvasContainer">
         <canvas id="mainCanvas"></canvas>
         <div id="optionContainer">
-            <h3 class="optionTitle">FPS</h3>
+            <h3 class="optionTitle">Monkey FPS</h3>
             <select id="fpsOptions">
                 <p>FPS</p>
                 <option value="20">20</option>
@@ -47,6 +47,12 @@
                 <option value="2.5">2.5</option>
                 <option value="2.5">3</option>
              </select>
+             <button id="pointlessSubmit">Submit</button>
+        </div>
+        <div id="gameFpsSlider">
+            <p>Game FPS slider: <span id="fpsValue"></span></p>
+            <input type="range" min="15" max="150" value="50" class="slider" id="myRange">
+            <button id="changeFpsButton">Change FPS</button>
         </div>
     </div>
 

@@ -1,5 +1,25 @@
 
-export class ChangeFps{
+export class ChangeGameFps{
+    constructor(game){
+        this.deltaTime;
+        console.log(game.gameFps);
+        document.getElementById("fpsValue").innerText = game.gameFps;
+        function changeFpsValue(event){
+            game.gameFps = document.getElementById("myRange").value;
+            document.getElementById("fpsValue").innerText = game.gameFps;
+            // alert(game.gameFps)
+            // alert('test')
+        }
+        this.game = game;
+        this.fpsButtonClicked = document.getElementById('changeFpsButton')
+        this.fpsButtonClicked.addEventListener('click', changeFpsValue, false);
+        // game.gameFps = parseInt(inputText); 
+        // this.fps = parseInt(inputText);
+            
+          
+    }
+}
+export class ChangeMonkeyFps{
     constructor(player){
         this.player = player;
         document.getElementById('fpsOptions').onchange = function() {

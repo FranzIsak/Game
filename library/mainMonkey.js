@@ -1,7 +1,7 @@
 /** @type {HTMLCanvasElement} **/
 
 import { Idle, RunningRight, JumpingRight, FallingRight } from './mainMonkeyStates.js';
-import { ChangeFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
+import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
     constructor(game){
@@ -30,7 +30,7 @@ export class Player{
         this.mainGround = this.game.height - this.height - this.game.groundMargin;
         this.currentGround = this.mainGround;
         // Change fps with option input
-        this.changeFps = new ChangeFps(this);
+        this.changeFps = new ChangeMonkeyFps(this);
         // Change monkey speed
         this.changeMonkeySpeed = new ChangeMonkeySpeed(this);
         // Change monkey weight
@@ -91,7 +91,7 @@ export class Player{
         // });
     }
     onGround(){
-        console.log((this.currentGround - this.height) + ' ' +this.y);
+        // console.log((this.currentGround - this.height) + ' ' +this.y);
         if(this.y+this.height >= this.currentGround && this.vy > 0){
             // alert(this.currentGround);
             // alert(this.y+this.height);
