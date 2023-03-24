@@ -56,9 +56,9 @@ export class JumpingRight extends State {
     enter(){
         if (this.player.onGround()) this.player.vy -= 36 ;
         this.player.infiniteLoop = false;
-        this.player.maxFrame = 4;
+        this.player.maxFrame = 5;
         this.player.frameX = 0;
-        this.player.frameY = 3;
+        this.player.frameY = 2;
     }
     handleInput(input){
         if (this.player.vy > this.player.weight){
@@ -76,7 +76,7 @@ export class FallingRight extends State {
         this.player.infiniteLoop = true;
         this.player.frameX = 0;
         this.player.maxFrame = 0;
-        this.player.frameY = 4;
+        this.player.frameY = 3;
 
     }
     handleInput(input){
