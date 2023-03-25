@@ -4,7 +4,6 @@ import { InputHandler } from "./library/input.js";
 import { Layer } from "./library/background.js";
 import { platformLocations, PlatformHandler } from "./library/platforms.js";
 import { ChangeGameFps } from "./library/htmlHandler.js";
-// console.log(platformLocations[0].test);
 
 
 
@@ -16,16 +15,13 @@ window.addEventListener('load', function(){
     
     class Game {
         constructor(width, height){
-            
-            // console.log(this.allPlatforms);
             this.width = canvas.width;
             this.height = canvas.height;
             this.groundMargin = 30; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
             this.input = new InputHandler(this);
-            // Test background //
+            // Draw background class item //
             this.layer = new Layer(this);
-            // Test background //
             this.gameFps = 50;
             this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
@@ -34,26 +30,22 @@ window.addEventListener('load', function(){
             })
         }
         update(deltaTime){
-            // console.log(this.gameFps)
             let tempArray = [];
             this.allPlatforms.forEach(platform => {
                 tempArray.push(platform.update());
             });
             if(!tempArray.includes(true)) this.player.currentGround = this.player.mainGround;
             this.player.update(this.input.keys, deltaTime);
-            // Test background update //
+            // Draw background //
             this.layer.update();
-            // Test background update //
         }
         draw(context){
-            // Test background draw //
+            // Draw background //
             this.layer.draw(ctx);
-            // Test background draw //
+
             this.allPlatforms.forEach(platform => {
                 platform.draw();
             });
-            // console.log(this.allPlatforms);
-
             this.player.draw(context);
         }
     }
@@ -65,8 +57,6 @@ window.addEventListener('load', function(){
     function animate(timeStamp){
         // FPS control        
         const deltaTime = timeStamp - lastTime;
-        // console.log(deltaTime)
-        // console.log(1000 / game.gameFps)
         if(deltaTime >= 1000 / game.gameFps){
             ctx.clearRect(0,0,canvas.width, canvas.height);
             game.update(deltaTime);

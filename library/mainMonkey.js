@@ -39,8 +39,6 @@ export class Player{
         this.infiniteLoop;
     }
     update(input, deltaTime){
-        // console.log(this.y);
-        // console.log(this.currentGround);
         // Check current input to see if it matches the current state
         this.currentState.handleInput(input);
         
@@ -52,14 +50,7 @@ export class Player{
 
         // Make Player unable to go offscreen
         if (this.x < 0) this.x = 0;
-        // Make Player unable to go under this.currentGround
-        // if((this.y > this.currentGround-this.height) && this.vy < 0){
-        //     this.y = this.currentGround - this.height;
-        //     this.vy = 0;
-        // }
-        
-        // if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
-        
+
         // Vertical Movement
         this.y += this.vy;
         if(!this.onGround()){
@@ -68,10 +59,7 @@ export class Player{
             this.y = this.currentGround;
             this.vy = 0;
         } 
-
         
-        // if(!this.onGround() && this.y <= this.currentGround && this.vy > 0) this.y = this.currentGround-this.height;
-
         // sprite animation
         if (this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
@@ -83,20 +71,8 @@ export class Player{
     }
     draw(context){
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX , this.y, this.width, this.height);
-        // context.beginPath();
-        // context.rect(150, this.y, this.width, this.height);
-        // context.stroke();
-        // this.game.allPlatforms.forEach(platform => {
-        //     platform.draw(this.y);
-        // });
     }
     onGround(){
-        // console.log((this.currentGround - this.height) + ' ' +this.y);
-        if(this.y+this.height >= this.currentGround && this.vy > 0){
-            // alert(this.currentGround);
-            // alert(this.y+this.height);
-        }
-        // return this.y >= this.mainGround;
         return this.y >= this.currentGround ;
     }
     setState(state){

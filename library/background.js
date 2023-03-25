@@ -1,5 +1,5 @@
 export class Layer {
-    constructor(game){//, width, height, speedModifier, image){
+    constructor(game) {
         this.game = game;
         this.canvasWidth = this.game.width;
         this.canvasHeight = this.game.height;
@@ -19,10 +19,7 @@ export class Layer {
         
     }
     update(){
-        // console.log(this.player.x);
-        // if(this.player.x >=-200){
-            this.playerX = -this.player.x;
-        // }
+        this.playerX = -this.player.x;
         this.playerY = -this.player.y;
     }
     draw(context){

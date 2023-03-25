@@ -7,14 +7,10 @@ export class ChangeGameFps{
         function changeFpsValue(event){
             game.gameFps = document.getElementById("myRange").value;
             document.getElementById("fpsValue").innerText = game.gameFps;
-            // alert(game.gameFps)
-            // alert('test')
         }
         this.game = game;
         this.fpsButtonClicked = document.getElementById('changeFpsButton')
         this.fpsButtonClicked.addEventListener('click', changeFpsValue, false);
-        // game.gameFps = parseInt(inputText); 
-        // this.fps = parseInt(inputText);
             
           
     }

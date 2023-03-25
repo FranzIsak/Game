@@ -41,7 +41,6 @@ export class PlatformHandler{
         this.x = platformInfo.x;
         this.y = platformInfo.y;
         this.width = platformInfo.width;
-        // this.endX = this.x + this.width;
     }
     update(){
         this.drawX = - this.player.x + this.x;
