@@ -46,12 +46,13 @@ export class PlatformHandler{
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
         
-        this.playerOffsetX = 92;
-        this.playerOffsetY = 5;
+        this.playerOffsetX = 92; // Hitbox width  = 294 - 92*2 = 110px
+        this.playerOffsetY = 30; // Hitbox height = 294 -  30  = 264px
         this.playerStartX = this.player.monkeyX + this.playerOffsetX;
-        this.playerStartY = this.player.y;
+        this.playerStartY = this.player.y + this.playerOffsetY; // Byrja hitbox 30px fyrir neðan animation frame
         this.playerWidth = this.player.width - this.playerOffsetX*2;
-        this.playerHeight = this.player.height;
+        this.playerHeight = this.player.height - this.playerOffsetY; 
+        console.log(this.playerWidth);
         this.playerEndX = this.playerStartX + this.playerWidth;
         this.playerFeetLocation = this.playerStartY + this.playerHeight;
 
@@ -69,7 +70,7 @@ export class PlatformHandler{
         this.ctx.beginPath();
         this.ctx.lineWidth = this.lineWidth;
         this.startY = this.player.y;
-        this.realY = this.player.y+this.player.height;
+        // this.realY = this.player.y+this.player.height;
         this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
         this.ctx.stroke();
 

@@ -2,6 +2,8 @@ Starting size: 784x784
 Process size:  392x392
 Game size:     294x294
 
+HitBox size:   110x264
+
 
 MainMonkeySpriteSheet:
 width:  784 * 10 = 7840
