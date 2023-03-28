@@ -18,15 +18,18 @@ window.addEventListener('load', function(){
             this.width = canvas.width;
             this.height = canvas.height;
             this.groundMargin = 600; // eins og #player { margin-bottom: 74px;}
-            this.player = new Player(this);
             // Draw background class item //
+            this.player = new Player(this);
             this.layer = new Layer(this);
             this.input = new InputHandler(this);
             this.gameFps = 50;
             this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
             platformLocations.forEach(platform => {
-                this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
+            // ???
+            this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform, this.layer));
+            // ???
+            // this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
             });
             // console.log(this.allPlatforms);
         }
@@ -47,7 +50,7 @@ window.addEventListener('load', function(){
             this.allPlatforms.forEach(platform => {
                 platform.draw();
             });
-            this.player.draw(context);
+            this.player.draw(context, this.layer);
         }
     }
 

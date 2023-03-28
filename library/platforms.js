@@ -1,8 +1,16 @@
 /** @type {HTMLCanvasElement} **/
 
+// ???
+import { Layer } from './background.js';
+// ???
+
 // Pull each item inside platformLocations from main.js that was exported from platforms.js
 export class PlatformHandler{
-    constructor(game, ctx, player, platformInfo){
+    constructor(game, ctx, player, platformInfo, background){
+        // ???
+        this.background = background;
+        // ???
+
         this.game = game;
         this.ctx = ctx
         this.player = player;
@@ -14,6 +22,7 @@ export class PlatformHandler{
         this.platformColor = platformInfo.color;
     }
     update(){
+        // this.y += this.background.getYMovement();
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
         
@@ -140,19 +149,25 @@ export const platformLocations = [ // Write platforms with same X values from to
         color: '#ffc0cb',
     },
     {
+        x: 8572,
+        y: 415,
+        width: 725,
+        color: '#ffc0cb',
+    },
+    {
         x: 7002,
         y: 345,
         width: 195,
         color: '#ffc0cb',
     },
-    ///////////////
-    // Section 4 //
-    ///////////////
+    ////////////////////////////
+    // Section 4 (DOWNSTAIRS) //
+    ////////////////////////////
     {
-        x: 8572,
-        y: 415,
-        width: 725,
-        color: '#ffc0cb',
+        x: 8000,
+        y: 780,
+        width: 6000,
+        color: 'orange',
     },
 ]
 

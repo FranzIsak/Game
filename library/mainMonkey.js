@@ -24,7 +24,7 @@ export class Player{
         // this.frameTimer will cycle through frameInterval then return to 0
         this.frameTimer = 0;
         this.speed = 0;
-        this.maxSpeed = 100; // NORMAL IS 20, 100 for debugging
+        this.maxSpeed = 20; // NORMAL IS 20, 100 for debugging
         this.slideSpeed = 0;
         this.states = [new Idle(this), new Running(this), new Jumping(this), new Falling(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', new GivingBanana(this), new ThrowingBanana(this), new Die(this)];
         this.currentState = this.states[0];
@@ -40,6 +40,8 @@ export class Player{
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
         this.direction = 'right';
+        // Level information (mostly background)
+
     }
     update(input, deltaTime){
         // Check direction of monkey
@@ -117,32 +119,10 @@ export class Player{
             this.frameTimer += deltaTime;
         }
     }
-    // draw(context){
-    //     if(this.x > 9055){
-    //         this.monkeyX = this.x - 9055;
-    //         console.log(this.monkeyX);
-    //         if(this.direction === 'left'){
-    //             context.save();
-    //             context.translate(this.monkeyX+this.game.player.width , 0);
-    //             context.scale(-1, 1);
-    //         }
-    //     } 
-    //     // if(this.direction === 'left'){
-    //     //     context.save();
-    //     //     context.translate(this.monkeyX+this.width+150 , 0);
-    //     //     context.scale(-1, 1);
-    //     // }
-    //     context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX , this.y, this.width, this.height);
-    //     if(this.direction==='left') context.restore();
-    // }
-    draw(context){
-    if(this.x > 13000){
-        this.monkeyX = this.x - 13000 + 150;
-    } 
-    console.log(this.x);
-    // if(this.x > 9055){
-    //     this.monkeyX = this.x - 9055;
-    // } 
+    draw(context, level){
+        if(this.x > level.endOfLevel){
+            this.monkeyX = this.x - level.endOfLevel + 150;
+        } 
 
     if(this.direction === 'left'){
         context.save();
@@ -154,7 +134,6 @@ export class Player{
     } else{
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX, this.y, this.width, this.height);
     }
-    // context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.direction === 'left' ? 0 : this.monkeyX, this.y, this.width, this.height);
 
     if(this.direction === 'left') context.restore();
 }
