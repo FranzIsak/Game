@@ -17,17 +17,18 @@ window.addEventListener('load', function(){
         constructor(width, height){
             this.width = canvas.width;
             this.height = canvas.height;
-            this.groundMargin = 1000; // eins og #player { margin-bottom: 74px;}
+            this.groundMargin = 600; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
-            this.input = new InputHandler(this);
             // Draw background class item //
             this.layer = new Layer(this);
+            this.input = new InputHandler(this);
             this.gameFps = 50;
             this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
             platformLocations.forEach(platform => {
                 this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
-            })
+            });
+            // console.log(this.allPlatforms);
         }
         update(deltaTime){
             let tempArray = [];

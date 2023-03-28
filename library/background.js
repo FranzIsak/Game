@@ -11,7 +11,7 @@ export class Layer {
         this.playerHeight = this.player.height;
         
         // Start Location of background image
-        this.x = this.player;
+        this.x = this.player.x;
         this.y = -550;
 
         this.mainBackground = MainBackground;
@@ -20,13 +20,36 @@ export class Layer {
         
     }
     update(){
-        this.playerX = -this.player.x;
-        this.playerY = -this.player.y;
+        // If Player is falling on the end of level 1 then move background and Player
+        if(this.player.x > 9055 && this.player.y >= 480 && this.y >= -1058){
+            this.y-= this.player.vyDefault;
+            this.player.y+= this.player.weight*5;
+            if(this.player.x > 13000){
+                
+            } else {
+                this.playerX = -this.player.x;
+            }
+        } else {
+            this.playerX = -this.player.x;
+            this.playerY = -this.player.y;
+        }
     }
     draw(context){
         this.context = context;
-        // this.context.drawImage(this.pinkBackground, this.playerX, -230);
-        // this.context.drawImage(this.mainBackground, this.playerX, -230);
-        this.context.drawImage(this.cliffBackground, this.playerX, this.y);
+        // Ef Apinn er ekki búinn að hoppa niður í enda level 1
+        if(this.player.x < 13000){
+            this.context.drawImage(this.cliffBackground, this.playerX, this.y);
+        } 
+        // Ef apinn er búinn að hoppa niður þá festist background
+        else {
+            this.context.drawImage(this.cliffBackground, -13000, this.y);
+        }
+        // if(this.player.x < 9055){
+        //     this.context.drawImage(this.cliffBackground, this.playerX, this.y);
+        // } 
+        // // Ef apinn er búinn að hoppa niður þá festist background
+        // else {
+        //     this.context.drawImage(this.cliffBackground, -9055, this.y);
+        // }
     }
 }

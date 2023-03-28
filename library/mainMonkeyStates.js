@@ -1,8 +1,8 @@
 const states = {
     IDLE: 0,
     RUNNING: 1,
-    JUMPING_RIGHT: 2,
-    FALLING_RIGHT: 3,
+    JUMPING: 2,
+    FALLING: 3,
     // Landing Placeholder //
     CROUCHING: 5,
     // Swinging Placeholder //
@@ -31,7 +31,7 @@ export class Idle extends State {
         this.player.frameY = 0;
     }
     handleInput(input){
-        if (input.includes('ArrowUp')) this.player.setState(states.JUMPING_RIGHT);
+        if (input.includes('ArrowUp')) this.player.setState(states.JUMPING);
         else if (input.includes('ArrowLeft') || input.includes('ArrowRight')) this.player.setState(states.RUNNING);
         else if (input.includes('ArrowDown')) this.player.setState(states.CROUCHING);
         else if (input.includes('b')) this.player.setState(states.GIVING_BANANA);
@@ -53,33 +53,26 @@ export class Running extends State {
         this.player.frameY = 1;
     }
     handleInput(input){
-        if (input.includes('ArrowUp')) this.player.setState(states.JUMPING_RIGHT);
-        if (input.includes(' ')) this.player.setState(states.THROWING_BANANA);
+        if (input.includes('ArrowUp')) this.player.setState(states.JUMPING);
+        else if (input.includes('ArrowDown')) {
+            this.player.slideSpeed = this.player.maxSpeed * 2;
+            this.player.setState(states.CROUCHING);
+        }
+        else if (input.includes(' ')) this.player.setState(states.THROWING_BANANA);
         // Passa að apinn snúi í rétta átt
         if (!input.includes('ArrowLeft') && !input.includes('ArrowRight')){
             this.player.setState(states.IDLE);
-        } else {
-            for (let i = 0; i < input.length; i++){
-                if(input[i] === 'ArrowRight'){
-                    this.player.direction = 'right';
-                    break;
-                } 
-                else if(input[i] === 'ArrowLeft'){
-                    this.player.direction = 'left';
-                    break;
-                }
-            }
         }
     }
 }
 
-export class JumpingRight extends State { 
+export class Jumping extends State { 
     constructor(player){
-        super('JUMPING_RIGHT');
+        super('JUMPING');
         this.player = player;
     }
     enter(){
-        if (this.player.onGround()) this.player.vy -= 36 ;
+        if (this.player.onGround()) this.player.vy -= this.player.vyDefault ;
         this.player.infiniteLoop = false;
         this.player.image = upperMonkeySprite;
         this.player.maxFrame = 5;
@@ -88,14 +81,14 @@ export class JumpingRight extends State {
     }
     handleInput(input){
         if (this.player.vy > this.player.weight){
-            this.player.setState(states.FALLING_RIGHT);
+            this.player.setState(states.FALLING);
         }
     }
 }
 
-export class FallingRight extends State {
+export class Falling extends State {
     constructor(player){
-        super('FALLING_RIGHT');
+        super('FALLING');
         this.player = player;
     }
     enter(){

@@ -1,41 +1,5 @@
 /** @type {HTMLCanvasElement} **/
 
-// Export to main.js to use it when defining a class item for PlatformHandler
-export const platformLocations = [ // Write from top Y to bottom
-    {
-        x: 2120,
-        y: 740,
-        width: 1315,
-    },
-    {
-        x: 0,
-        y: 600,
-        width: 1200,
-    },
-    {
-        x: 1830,
-        y: 565,
-        width: 300,
-    },
-    {
-        x: 6000,
-        y: 400,
-        width: 500,
-    },
-    {
-        x: 2640,
-        y: 345,
-        width: 195,
-    },
-    {
-        x: 7500,
-        y: 300,
-        width: 500,
-    },
-]
-
-
-
 // Pull each item inside platformLocations from main.js that was exported from platforms.js
 export class PlatformHandler{
     constructor(game, ctx, player, platformInfo){
@@ -47,6 +11,7 @@ export class PlatformHandler{
         this.y = platformInfo.y;
         this.highestGround = 0;
         this.width = platformInfo.width;
+        this.platformColor = platformInfo.color;
     }
     update(){
         this.drawX = - this.player.x + this.x;
@@ -77,8 +42,10 @@ export class PlatformHandler{
 
     }
     draw(){
+        // console.log("x => " + (this.player.x+150+this.playerOffsetX));
         // Rectangle around monkey
         this.ctx.beginPath();
+        this.ctx.strokeStyle = 'Purple';
         this.ctx.lineWidth = this.lineWidth;
         this.startY = this.player.y;
         // this.realY = this.player.y+this.player.height;
@@ -87,9 +54,105 @@ export class PlatformHandler{
 
         // Platforms
         this.ctx.beginPath();
+        this.ctx.strokeStyle = this.platformColor;
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.moveTo(this.drawX, this.y);
         this.ctx.lineTo(this.drawEndX, this.y);
         this.ctx.stroke();
     }
 }
+
+// Export to main.js to use it when defining a class item for PlatformHandler
+export const platformLocations = [ // Write platforms with same X values from top Y to bottom Y
+    ///////////////
+    // Section 1 //
+    ///////////////
+    {
+        x: 2120,
+        y: 740,
+        width: 1315,
+        color: 'red',
+    },
+    {
+        x: 0,
+        y: 620,
+        width: 1200,
+        color: 'red',
+    },
+    {
+        x: 1820,
+        y: 565,
+        width: 310,
+        color: 'red',
+    },
+    {
+        x: 3320,
+        y: 415,
+        width: 365,
+        color: 'red',
+    },
+    {
+        x: 2640,
+        y: 345,
+        width: 195,
+        color: 'red',
+    },
+    ///////////////
+    // Section 2 //
+    ///////////////
+    {
+        x: 4220,
+        y: 410,
+        width: 245,
+        color: 'blue',
+    },
+    {
+        x: 3915,
+        y: 515,
+        width: 225,
+        color: 'blue',
+    },
+    ///////////////
+    // Section 3 //
+    ///////////////
+    {
+        x: 6497,
+        y: 750,
+        width: 1315,
+        color: '#ffc0cb',
+    },
+    {
+        x: 6162,
+        y: 565,
+        width: 355,
+        color: '#ffc0cb',
+    },
+    {
+        x: 8269,
+        y: 520,
+        width: 220,
+        color: '#ffc0cb',
+    },
+    {
+        x: 7677,
+        y: 415,
+        width: 365,
+        color: '#ffc0cb',
+    },
+    {
+        x: 7002,
+        y: 345,
+        width: 195,
+        color: '#ffc0cb',
+    },
+    ///////////////
+    // Section 4 //
+    ///////////////
+    {
+        x: 8572,
+        y: 415,
+        width: 725,
+        color: '#ffc0cb',
+    },
+]
+

@@ -1,6 +1,6 @@
 /** @type {HTMLCanvasElement} **/
 
-import { Idle, Running, JumpingRight, FallingRight, Crouching, GivingBanana, ThrowingBanana, Die } from './mainMonkeyStates.js';
+import { Idle, Running, Jumping, Falling, Crouching, GivingBanana, ThrowingBanana, Die } from './mainMonkeyStates.js';
 import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
@@ -12,6 +12,7 @@ export class Player{
         this.monkeyX = this.x;
         this.y = this.game.height-this.height - this.game.groundMargin;
         this.vy = 0;
+        this.vyDefault = 36;
         this.weight = 2;
         this.image = upperMonkeySprite;
         this.frameX = 0;
@@ -23,11 +24,12 @@ export class Player{
         // this.frameTimer will cycle through frameInterval then return to 0
         this.frameTimer = 0;
         this.speed = 0;
-        this.maxSpeed = 20;
-        this.states = [new Idle(this), new Running(this), new JumpingRight(this), new FallingRight(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', new GivingBanana(this), new ThrowingBanana(this), new Die(this)];
+        this.maxSpeed = 100; // NORMAL IS 20, 100 for debugging
+        this.slideSpeed = 0;
+        this.states = [new Idle(this), new Running(this), new Jumping(this), new Falling(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', new GivingBanana(this), new ThrowingBanana(this), new Die(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        this.mainGround = this.game.height - this.height;// - this.game.groundMargin;
+        this.mainGround = this.game.height - this.height;
         this.currentGround = this.mainGround;
         // Change fps with option input
         this.changeFps = new ChangeMonkeyFps(this);
@@ -40,7 +42,17 @@ export class Player{
         this.direction = 'right';
     }
     update(input, deltaTime){
-        console.log(this.currentState.state);
+        // Check direction of monkey
+        for (let i = 0; i < input.length; i++){
+            if(input[i] === 'ArrowRight'){
+                this.direction = 'right';
+                break;
+            } 
+            else if(input[i] === 'ArrowLeft'){
+                this.direction = 'left';
+                break;
+            }
+        }
         // Check if monkey is Dying
         if(this.currentState.state === 'DIE'){
             // Check if monkey is dead
@@ -55,9 +67,28 @@ export class Player{
         
         // Horizontal Movement
         this.x += this.speed;
-        // console.log(this.currentState.state);
-        if( this.currentState.state !== 'CROUCHING' && 
-            this.currentState.state !== 'DIE' 
+        if (this.currentState.state === 'CROUCHING' && this.slideSpeed !== 0 && input.includes('ArrowRight') && !input.includes('ArrowLeft')){
+            this.slideSpeed -= this.weight * 0.5;
+            this.speed = this.slideSpeed;
+            if(this.speed < 1 && this.speed > -1){
+                this.slideSpeed = 0;
+                this.speed = 0;
+            }
+        }
+        else if (this.currentState.state === 'CROUCHING' && this.slideSpeed !== 0 && !input.includes('ArrowRight') && input.includes('ArrowLeft')){
+            this.slideSpeed -= this.weight * 0.5;
+            this.speed = -this.slideSpeed;
+            if(this.speed < 1 && this.speed > -1){
+                this.slideSpeed = 0;
+                this.speed = 0;
+            }
+        }
+            
+        
+        else if (this.currentState.state !== 'CROUCHING' && 
+            this.currentState.state !== 'DIE' &&
+            this.currentState.state !== 'GIVING_BANANA' 
+            
             
             ){
             if (input.includes('ArrowRight') && !input.includes('ArrowLeft')) this.speed = this.maxSpeed;
@@ -86,15 +117,48 @@ export class Player{
             this.frameTimer += deltaTime;
         }
     }
+    // draw(context){
+    //     if(this.x > 9055){
+    //         this.monkeyX = this.x - 9055;
+    //         console.log(this.monkeyX);
+    //         if(this.direction === 'left'){
+    //             context.save();
+    //             context.translate(this.monkeyX+this.game.player.width , 0);
+    //             context.scale(-1, 1);
+    //         }
+    //     } 
+    //     // if(this.direction === 'left'){
+    //     //     context.save();
+    //     //     context.translate(this.monkeyX+this.width+150 , 0);
+    //     //     context.scale(-1, 1);
+    //     // }
+    //     context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX , this.y, this.width, this.height);
+    //     if(this.direction==='left') context.restore();
+    // }
     draw(context){
-        if(this.direction === 'left'){
-            context.save();
-            context.translate(this.monkeyX+this.width+150 , 0);
-            context.scale(-1, 1);
-        }
-        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX , this.y, this.width, this.height);
-        if(this.direction==='left') context.restore();
+    if(this.x > 13000){
+        this.monkeyX = this.x - 13000 + 150;
+    } 
+    console.log(this.x);
+    // if(this.x > 9055){
+    //     this.monkeyX = this.x - 9055;
+    // } 
+
+    if(this.direction === 'left'){
+        context.save();
+        context.translate(this.monkeyX + this.width, 0);
+        context.scale(-1, 1);
     }
+    if(this.direction === 'left'){
+        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, 0, this.y, this.width, this.height);
+    } else{
+        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX, this.y, this.width, this.height);
+    }
+    // context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.direction === 'left' ? 0 : this.monkeyX, this.y, this.width, this.height);
+
+    if(this.direction === 'left') context.restore();
+}
+
     onGround(){
         return this.y >= this.currentGround ;
     }
