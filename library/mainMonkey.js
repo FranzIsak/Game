@@ -1,6 +1,6 @@
 /** @type {HTMLCanvasElement} **/
 
-import { Idle, RunningRight, JumpingRight, FallingRight, Crouching } from './mainMonkeyStates.js';
+import { Idle, Running, JumpingRight, FallingRight, Crouching, GivingBanana, ThrowingBanana, Die } from './mainMonkeyStates.js';
 import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
@@ -24,7 +24,7 @@ export class Player{
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 20;
-        this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', ];
+        this.states = [new Idle(this), new Running(this), new JumpingRight(this), new FallingRight(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', new GivingBanana(this), new ThrowingBanana(this), new Die(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
         this.mainGround = this.game.height - this.height;// - this.game.groundMargin;
@@ -37,17 +37,31 @@ export class Player{
         this.changeMonkeySpeed = new ChangeMonkeyWeight(this);
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
+        this.direction = 'right';
     }
     update(input, deltaTime){
-        // Check current input to see if it matches the current state
-        this.currentState.handleInput(input);
+        console.log(this.currentState.state);
+        // Check if monkey is Dying
+        if(this.currentState.state === 'DIE'){
+            // Check if monkey is dead
+            if(this.frameX >= this.maxFrame){
+                alert('Monkey is dead');
+            }
+        } 
+        // Check current input to see if it matches the current state if monkey is alive
+        else{
+            this.currentState.handleInput(input);
+        }
         
         // Horizontal Movement
         this.x += this.speed;
         // console.log(this.currentState.state);
-        if(this.currentState.state !== ('CROUCHING')){
-            if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
-            else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed;
+        if( this.currentState.state !== 'CROUCHING' && 
+            this.currentState.state !== 'DIE' 
+            
+            ){
+            if (input.includes('ArrowRight') && !input.includes('ArrowLeft')) this.speed = this.maxSpeed;
+            else if (input.includes('ArrowLeft') && !input.includes('ArrowRight')) this.speed = -this.maxSpeed;
             else this.speed = 0;
         }
 
@@ -73,7 +87,13 @@ export class Player{
         }
     }
     draw(context){
+        if(this.direction === 'left'){
+            context.save();
+            context.translate(this.monkeyX+this.width+150 , 0);
+            context.scale(-1, 1);
+        }
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX , this.y, this.width, this.height);
+        if(this.direction==='left') context.restore();
     }
     onGround(){
         return this.y >= this.currentGround ;
