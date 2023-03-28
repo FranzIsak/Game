@@ -27,7 +27,7 @@ export class Player{
         this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        this.mainGround = this.game.height - this.height - this.game.groundMargin;
+        this.mainGround = this.game.height - this.height;// - this.game.groundMargin;
         this.currentGround = this.mainGround;
         // Change fps with option input
         this.changeFps = new ChangeMonkeyFps(this);

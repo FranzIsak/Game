@@ -12,10 +12,11 @@ export class Layer {
         
         // Start Location of background image
         this.x = this.player;
-        this.y = 0;
+        this.y = -550;
 
         this.mainBackground = MainBackground;
         this.pinkBackground = PinkBackground;
+        this.cliffBackground = CliffBackground;
         
     }
     update(){
@@ -24,6 +25,8 @@ export class Layer {
     }
     draw(context){
         this.context = context;
-        this.context.drawImage(this.pinkBackground, this.playerX, -230);
+        // this.context.drawImage(this.pinkBackground, this.playerX, -230);
+        // this.context.drawImage(this.mainBackground, this.playerX, -230);
+        this.context.drawImage(this.cliffBackground, this.playerX, this.y);
     }
 }

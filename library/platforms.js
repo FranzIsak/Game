@@ -1,26 +1,31 @@
 /** @type {HTMLCanvasElement} **/
 
 // Export to main.js to use it when defining a class item for PlatformHandler
-export const platformLocations = [
+export const platformLocations = [ // Write from top Y to bottom
     {
-        x: 500,
-        y: 500,
-        width: 500,
+        x: 2120,
+        y: 740,
+        width: 1315,
     },
     {
-        x: 5500,
+        x: 0,
         y: 600,
-        width: 500,
+        width: 1200,
     },
     {
-        x: 6700,
-        y: 500,
-        width: 500,
+        x: 1830,
+        y: 565,
+        width: 300,
     },
     {
         x: 6000,
         y: 400,
         width: 500,
+    },
+    {
+        x: 2640,
+        y: 345,
+        width: 195,
     },
     {
         x: 7500,
@@ -40,6 +45,7 @@ export class PlatformHandler{
         this.lineWidth = 5;
         this.x = platformInfo.x;
         this.y = platformInfo.y;
+        this.highestGround = 0;
         this.width = platformInfo.width;
     }
     update(){
@@ -52,14 +58,19 @@ export class PlatformHandler{
         this.playerStartY = this.player.y + this.playerOffsetY; // Byrja hitbox 30px fyrir neðan animation frame
         this.playerWidth = this.player.width - this.playerOffsetX*2;
         this.playerHeight = this.player.height - this.playerOffsetY; 
-        console.log(this.playerWidth);
         this.playerEndX = this.playerStartX + this.playerWidth;
         this.playerFeetLocation = this.playerStartY + this.playerHeight;
 
+        // Check if Player hitbox x coordinates is within platform
         if(this.playerEndX > this.drawX && this.playerStartX < this.drawEndX && this.playerStartX+this.playerWidth){
+            // Check if Player hitbox y coordinates is within platform
             if(this.y >= this.playerFeetLocation){
-                this.player.currentGround = this.y - this.playerHeight;
-                return true;
+                // If Player hitbox is above platform and within x coordinates
+                let currentGroundCheck = this.y - this.playerHeight - this.playerOffsetY
+                if(currentGroundCheck > this.highestGround){
+                    this.player.currentGround = this.y - this.playerHeight - this.playerOffsetY;
+                    return true;
+                }
             }
         } 
     

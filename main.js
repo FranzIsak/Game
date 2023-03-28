@@ -17,7 +17,7 @@ window.addEventListener('load', function(){
         constructor(width, height){
             this.width = canvas.width;
             this.height = canvas.height;
-            this.groundMargin = 30; // eins og #player { margin-bottom: 74px;}
+            this.groundMargin = 1000; // eins og #player { margin-bottom: 74px;}
             this.player = new Player(this);
             this.input = new InputHandler(this);
             // Draw background class item //
