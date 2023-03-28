@@ -1,7 +1,7 @@
 /** @type {HTMLCanvasElement} **/
 
 import { Idle, Running, Jumping, Falling, Crouching, GivingBanana, ThrowingBanana, Die } from './mainMonkeyStates.js';
-import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
+// import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
     constructor(game){
@@ -18,7 +18,7 @@ export class Player{
         this.frameX = 0;
         this.frameY = 2;
         this.maxFrame;
-        this.fps = 20;
+        this.fps = 40;
         // Calculate the actual FPS
         this.frameInterval = 1000/this.fps;
         // this.frameTimer will cycle through frameInterval then return to 0
@@ -32,11 +32,11 @@ export class Player{
         this.mainGround = 1200;// this.game.height - this.height;
         this.currentGround = this.mainGround;
         // Change fps with option input
-        this.changeFps = new ChangeMonkeyFps(this);
+        // this.changeFps = new ChangeMonkeyFps(this);
         // Change monkey speed
-        this.changeMonkeySpeed = new ChangeMonkeySpeed(this);
+        // this.changeMonkeySpeed = new ChangeMonkeySpeed(this);
         // Change monkey weight
-        this.changeMonkeySpeed = new ChangeMonkeyWeight(this);
+        // this.changeMonkeySpeed = new ChangeMonkeyWeight(this);
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
         this.direction = 'right';
@@ -63,8 +63,10 @@ export class Player{
         // Check if monkey is Dying
         if(this.currentState.state === 'DIE'){
             // Check if monkey is dead
-            if(this.frameX >= this.maxFrame){
+            if(this.frameX === this.maxFrame){
+                location.reload();
                 alert('Monkey is dead');
+                this.frameX++;
             }
         } 
         // Check current input to see if it matches the current state if monkey is alive
@@ -149,6 +151,7 @@ export class Player{
         if(this.y === this.mainGround){
             alert('U dead homie')
             window.location.href = "https://verkefni.franzisak.is/";
+            this.mainGround = 0;
         }
         return this.y >= this.currentGround ;
     }

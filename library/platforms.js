@@ -52,21 +52,21 @@ export class PlatformHandler{
     }
     draw(){
         // Rectangle around monkey
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = 'Purple';
-        this.ctx.lineWidth = this.lineWidth;
-        this.startY = this.player.y;
-        // this.realY = this.player.y+this.player.height;
-        this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
-        this.ctx.stroke();
+        // this.ctx.beginPath();
+        // // this.ctx.strokeStyle = 'Purple';
+        // this.ctx.lineWidth = this.lineWidth;
+        // this.startY = this.player.y;
+        // // this.realY = this.player.y+this.player.height;
+        // this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
+        // this.ctx.stroke();
 
-        // Platforms
-        this.ctx.beginPath();
-        // this.ctx.strokeStyle = this.platformColor;
-        this.ctx.lineWidth = this.lineWidth;
-        this.ctx.moveTo(this.drawX, this.y);
-        this.ctx.lineTo(this.drawEndX, this.y);
-        this.ctx.stroke();
+        // // Platforms
+        // this.ctx.beginPath();
+        // // this.ctx.strokeStyle = this.platformColor;
+        // this.ctx.lineWidth = this.lineWidth;
+        // this.ctx.moveTo(this.drawX, this.y);
+        // this.ctx.lineTo(this.drawEndX, this.y);
+        // this.ctx.stroke();
     }
 }
 

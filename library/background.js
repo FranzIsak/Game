@@ -42,7 +42,7 @@ export class Layer {
             this.playerY = -this.player.y;
         }
         
-        console.log(this.playerX);
+        // console.log(this.playerX);
 
         if(this.playerX < -14250){
             window.location.href = "https://verkefni.franzisak.is/pages/gameOver.html";
