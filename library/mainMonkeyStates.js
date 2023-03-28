@@ -3,6 +3,11 @@ const states = {
     RUNNING_RIGHT: 1,
     JUMPING_RIGHT: 2,
     FALLING_RIGHT: 3,
+    // Landing Placeholder //
+    CROUCHING: 5,
+    // Swinging Placeholder //
+    GIVING_BANANA: 7,
+
 }
 
 class State {
@@ -18,12 +23,16 @@ export class Idle extends State {
     }
     enter(){
         this.player.infiniteLoop = true;
+        this.player.image = upperMonkeySprite;
+        this.player.frameX = 0;
         this.player.maxFrame = 7;
         this.player.frameY = 0;
     }
     handleInput(input){
         if (input.includes('ArrowLeft') || input.includes('ArrowRight')){
             this.player.setState(states.RUNNING_RIGHT);
+        } else if (input.includes('ArrowDown')){
+            this.player.setState(states.CROUCHING);
         }
     }
 }
@@ -35,6 +44,7 @@ export class RunningRight extends State {
     }
     enter(){
         this.player.infiniteLoop = true;
+        this.player.image = upperMonkeySprite;
         this.player.maxFrame = 9;
         this.player.frameX = 0;
         this.player.frameY = 1;
@@ -44,6 +54,9 @@ export class RunningRight extends State {
             this.player.setState(states.IDLE);
         } else if (input.includes('ArrowUp')){
             this.player.setState(states.JUMPING_RIGHT);
+        }
+        if (!input.includes('ArrowLeft') && !input.includes('ArrowRight')){
+            this.player.setState(states.IDLE);
         }
     }
 }
@@ -56,6 +69,7 @@ export class JumpingRight extends State {
     enter(){
         if (this.player.onGround()) this.player.vy -= 36 ;
         this.player.infiniteLoop = false;
+        this.player.image = upperMonkeySprite;
         this.player.maxFrame = 5;
         this.player.frameX = 0;
         this.player.frameY = 2;
@@ -74,10 +88,10 @@ export class FallingRight extends State {
     }
     enter(){
         this.player.infiniteLoop = true;
+        this.player.image = upperMonkeySprite;
         this.player.frameX = 0;
         this.player.maxFrame = 0;
         this.player.frameY = 3;
-
     }
     handleInput(input){
         if (this.player.onGround()){
@@ -86,3 +100,42 @@ export class FallingRight extends State {
     }
 }
 
+export class Crouching extends State {
+    constructor(player){
+        super('CROUCHING');
+        this.player = player;
+    }
+    enter(){
+        this.player.infiniteLoop = false;
+        this.player.image = lowerMonkeySprite;
+        this.player.frameX = 0;
+        this.player.maxFrame = 8;
+        this.player.frameY = 0;
+    }
+    handleInput(input){
+
+        if(!input.includes('ArrowDown')){
+            this.player.setState(states.IDLE);
+        }
+    }
+}
+
+export class GivingBanana extends State {
+    constructor(player){
+        super('GIVING_BANANA');
+        this.player = player;
+    }
+    enter(){
+        this.player.infiniteLoop = false;
+        this.player.image = lowerMonkeySprite;
+        this.player.frameX = 0;
+        this.player.maxFrame = 8;
+        this.player.frameY = 0;
+    }
+    handleInput(input){
+        if(!input.includes('ArrowDown')){
+            this.player.setState(states.IDLE);
+        }
+        console.log(input);
+    }
+}

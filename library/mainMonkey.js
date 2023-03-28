@@ -1,6 +1,6 @@
 /** @type {HTMLCanvasElement} **/
 
-import { Idle, RunningRight, JumpingRight, FallingRight } from './mainMonkeyStates.js';
+import { Idle, RunningRight, JumpingRight, FallingRight, Crouching } from './mainMonkeyStates.js';
 import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
@@ -13,7 +13,7 @@ export class Player{
         this.y = this.game.height-this.height - this.game.groundMargin;
         this.vy = 0;
         this.weight = 2;
-        this.image = mainMonkeySprite;
+        this.image = upperMonkeySprite;
         this.frameX = 0;
         this.frameY = 2;
         this.maxFrame;
@@ -24,7 +24,7 @@ export class Player{
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 20;
-        this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this)];
+        this.states = [new Idle(this), new RunningRight(this), new JumpingRight(this), new FallingRight(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', ];
         this.currentState = this.states[0];
         this.currentState.enter();
         this.mainGround = this.game.height - this.height;// - this.game.groundMargin;
@@ -44,9 +44,12 @@ export class Player{
         
         // Horizontal Movement
         this.x += this.speed;
-        if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
-        else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed;
-        else this.speed = 0;
+        // console.log(this.currentState.state);
+        if(this.currentState.state !== ('CROUCHING')){
+            if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
+            else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed;
+            else this.speed = 0;
+        }
 
         // Make Player unable to go offscreen
         if (this.x < 0) this.x = 0;
