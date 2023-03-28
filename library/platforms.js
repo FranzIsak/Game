@@ -22,7 +22,7 @@ export class PlatformHandler{
         this.platformColor = platformInfo.color;
     }
     update(){
-        // this.y += this.background.getYMovement();
+        this.y += this.background.getYMovement();
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
         
@@ -51,7 +51,6 @@ export class PlatformHandler{
 
     }
     draw(){
-        // console.log("x => " + (this.player.x+150+this.playerOffsetX));
         // Rectangle around monkey
         this.ctx.beginPath();
         this.ctx.strokeStyle = 'Purple';
@@ -63,7 +62,7 @@ export class PlatformHandler{
 
         // Platforms
         this.ctx.beginPath();
-        this.ctx.strokeStyle = this.platformColor;
+        // this.ctx.strokeStyle = this.platformColor;
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.moveTo(this.drawX, this.y);
         this.ctx.lineTo(this.drawEndX, this.y);
@@ -121,6 +120,45 @@ export const platformLocations = [ // Write platforms with same X values from to
         width: 225,
         color: 'blue',
     },
+    {
+        x: 4535,
+        y: 600,
+        width: 460,
+        color: 'blue',
+    },
+    {
+        x: 5160,
+        y: 450,
+        width: 190,
+        color: 'blue',
+    },
+    {
+        x: 5535,
+        y: 350,
+        width: 190,
+        color: 'blue',
+    },
+    ////////////////////////////
+    // Section 4 (DOWNSTAIRS) //
+    ////////////////////////////
+    {
+        x: 9035,
+        y: 1330,
+        width: 4450,
+        color: 'orange',
+    },
+    {
+        x: 14085,
+        y: 1330,
+        width: 4450,
+        color: 'orange',
+    },
+    {
+        x: 9035,
+        y: 1300,
+        width: 3000,
+        color: 'orange',
+    },
     ///////////////
     // Section 3 //
     ///////////////
@@ -163,11 +201,5 @@ export const platformLocations = [ // Write platforms with same X values from to
     ////////////////////////////
     // Section 4 (DOWNSTAIRS) //
     ////////////////////////////
-    {
-        x: 8000,
-        y: 780,
-        width: 6000,
-        color: 'orange',
-    },
 ]
 

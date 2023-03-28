@@ -29,7 +29,7 @@ export class Player{
         this.states = [new Idle(this), new Running(this), new Jumping(this), new Falling(this), 'Landing Placeholder', new Crouching(this), 'Swinging Placeholder', new GivingBanana(this), new ThrowingBanana(this), new Die(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        this.mainGround = this.game.height - this.height;
+        this.mainGround = 1200;// this.game.height - this.height;
         this.currentGround = this.mainGround;
         // Change fps with option input
         this.changeFps = new ChangeMonkeyFps(this);
@@ -44,6 +44,11 @@ export class Player{
 
     }
     update(input, deltaTime){
+        // console.log(this.y);
+        // console.log(this.mainGround);
+        
+        // console.log(this.currentState.state);
+        // console.log(this.onGround());
         // Check direction of monkey
         for (let i = 0; i < input.length; i++){
             if(input[i] === 'ArrowRight'){
@@ -118,6 +123,8 @@ export class Player{
         } else {
             this.frameTimer += deltaTime;
         }
+
+        // Check if Player is on ground, 
     }
     draw(context, level){
         if(this.x > level.endOfLevel){
@@ -139,6 +146,10 @@ export class Player{
 }
 
     onGround(){
+        if(this.y === this.mainGround){
+            alert('U dead homie')
+            window.location.href = "https://verkefni.franzisak.is/";
+        }
         return this.y >= this.currentGround ;
     }
     setState(state){

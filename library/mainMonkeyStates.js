@@ -82,6 +82,8 @@ export class Jumping extends State {
     handleInput(input){
         if (this.player.vy > this.player.weight){
             this.player.setState(states.FALLING);
+        } else if(this.player.onGround()){
+            this.player.setState(states.IDLE);
         }
     }
 }
