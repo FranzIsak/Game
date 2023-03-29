@@ -1,0 +1,32 @@
+Starting size: 784x784
+Process size:  392x392
+Game size:     294x294
+
+HitBox size:   110x264
+
+
+MainMonkeySpriteSheet:
+width:  784 * 10 = 7840
+height: 784 * 9  = 7056
+
+STATES
+
+width: 784 / 2 = 392
+height: 784 / 2 = 392
+
+State - IDLE
+cropY: 0
+Frames: 8
+
+State - RunRight
+Frames: 10
+
+State - JumpRight
+Frames: 6
+
+State - FallingRight
+Frames: 1
+
+State - LandingRight
+Frames: 3
+

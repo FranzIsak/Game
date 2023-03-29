@@ -1,0 +1,70 @@
+body{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: poppins;
+    background-color: teal;
+}
+#canvasContainer{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#mainCanvas{
+    border: 5px solid black;
+    width : 1400px;
+    height : 788px; 
+}
+div#mainTitle{
+    left: 0;
+    right: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    position: absolute;
+    width: 100%;
+
+}
+#optionContainer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 100px;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+    border: 5px solid black;
+}
+.optionTitle{
+    margin: 0;
+    padding-top: 10px;
+}
+#gameFpsSlider{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+    border: 5px solid black;
+}
+#gameFpsSlider p{
+    margin: 0;
+}
+h1{
+    text-align: center;
+    color: white;
+    font-family: poppins;
+}
+
+img{
+    display: none;
+}
+
+
+
+
+
+
