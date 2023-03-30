@@ -1,4 +1,4 @@
-const states = {
+export const states = {
     IDLE: 0,
     RUNNING: 1,
     JUMPING: 2,
@@ -53,7 +53,10 @@ export class Running extends State {
         this.player.frameY = 1;
     }
     handleInput(input){
-        if (input.includes('ArrowUp')) this.player.setState(states.JUMPING);
+        // TESTING JUMP STAB ???
+        if (input.includes('b')) this.player.setState(states.GIVING_BANANA);
+        // TESTING JUMP STAB ???
+        else if (input.includes('ArrowUp')) this.player.setState(states.JUMPING);
         else if (input.includes('ArrowDown')) {
             this.player.slideSpeed = this.player.maxSpeed * 2;
             this.player.setState(states.CROUCHING);
@@ -80,7 +83,10 @@ export class Jumping extends State {
         this.player.frameY = 2;
     }
     handleInput(input){
-        if (this.player.vy > this.player.weight){
+        // TESTING JUMP STAB ???
+        if (input.includes('b')) this.player.setState(states.GIVING_BANANA);
+        // TESTING JUMP STAB ???
+        else if (this.player.vy > this.player.weight){
             this.player.setState(states.FALLING);
         } else if(this.player.onGround()){
             this.player.setState(states.IDLE);
@@ -136,6 +142,10 @@ export class GivingBanana extends State {
         this.player.frameY = 2;
     }
     handleInput(input){
+
+        if (this.player.onGround() && input.includes('ArrowUp')) this.player.vy -= this.player.vyDefault ;
+        
+
         if(input.includes('b') && this.player.frameX === this.player.maxFrame) this.player.frameX = 0;
         else if(this.player.frameX >= this.player.maxFrame) this.player.setState(states.IDLE);
         

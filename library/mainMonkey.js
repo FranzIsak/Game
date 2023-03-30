@@ -5,6 +5,8 @@ import { Idle, Running, Jumping, Falling, Crouching, GivingBanana, ThrowingBanan
 
 export class Player{
     constructor(game){
+        this.DEATH = false;
+
         this.game = game;
         this.width = 294;
         this.height = 294;
@@ -40,15 +42,9 @@ export class Player{
         // Determine if frames (frameX) should refresh in the end of animation
         this.infiniteLoop;
         this.direction = 'right';
-        // Level information (mostly background)
 
     }
     update(input, deltaTime){
-        // console.log(this.y);
-        // console.log(this.mainGround);
-        
-        // console.log(this.currentState.state);
-        // console.log(this.onGround());
         // Check direction of monkey
         for (let i = 0; i < input.length; i++){
             if(input[i] === 'ArrowRight'){
@@ -64,9 +60,14 @@ export class Player{
         if(this.currentState.state === 'DIE'){
             // Check if monkey is dead
             if(this.frameX === this.maxFrame){
-                location.reload();
-                alert('Monkey is dead')
-                throw new Error("Game Over");
+                if(this.DEATH){
+                    this.speed = 0;
+                } else if(this.onGround() && this.DEATH===false){
+                    this.DEATH = true;
+                    alert('Monkey is dead')
+                }
+                // location.reload();
+                // throw new Error("Game Over");
 
             }
         } 
@@ -96,8 +97,8 @@ export class Player{
             
         
         else if (this.currentState.state !== 'CROUCHING' && 
-            this.currentState.state !== 'DIE' &&
-            this.currentState.state !== 'GIVING_BANANA' 
+            this.currentState.state !== 'DIE' /*&&
+            this.currentState.state !== 'GIVING_BANANA'*/ 
             
             
             ){
@@ -120,6 +121,7 @@ export class Player{
         
         // sprite animation
         if (this.frameTimer > this.frameInterval){
+            // console.log(this.frameX)
             this.frameTimer = 0;
             if (this.frameX < this.maxFrame) this.frameX++;
             else if(this.infiniteLoop)this.frameX = 0;
@@ -128,24 +130,26 @@ export class Player{
         }
 
         // Check if Player is on ground, 
+
     }
     draw(context, level){
         if(this.x > level.endOfLevel){
             this.monkeyX = this.x - level.endOfLevel + 150;
         } 
 
-    if(this.direction === 'left'){
-        context.save();
-        context.translate(this.monkeyX + this.width, 0);
-        context.scale(-1, 1);
-    }
-    if(this.direction === 'left'){
-        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, 0, this.y, this.width, this.height);
-    } else{
-        context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX, this.y, this.width, this.height);
-    }
+        if(this.direction === 'left'){
+            context.save();
+            context.translate(this.monkeyX + this.width, 0);
+            context.scale(-1, 1);
+        }
+        if(this.direction === 'left'){
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, 0, this.y, this.width, this.height);
+        } else{
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.monkeyX, this.y, this.width, this.height);
+        }
 
-    if(this.direction === 'left') context.restore();
+        if(this.direction === 'left') context.restore();
+        
 }
 
     onGround(){

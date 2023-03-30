@@ -2,6 +2,8 @@
 
 // ???
 import { Layer } from './background.js';
+import { states } from './mainMonkeyStates.js';
+
 // ???
 
 // Pull each item inside platformLocations from main.js that was exported from platforms.js
@@ -26,6 +28,7 @@ export class PlatformHandler{
         this.checkCollision();
 
         this.y += this.background.getYMovement();
+
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
         
@@ -54,22 +57,22 @@ export class PlatformHandler{
 
     }
     draw(){
-        // Rectangle around monkey
-        this.ctx.beginPath();
-        // this.ctx.strokeStyle = 'Purple';
-        this.ctx.lineWidth = this.lineWidth;
-        this.startY = this.player.y;
-        // this.realY = this.player.y+this.player.height;
-        this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
-        this.ctx.stroke();
+        // // Rectangle around monkey
+        // this.ctx.beginPath();
+        // // this.ctx.strokeStyle = 'Purple';
+        // this.ctx.lineWidth = this.lineWidth;
+        // this.startY = this.player.y;
+        // // this.realY = this.player.y+this.player.height;
+        // this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
+        // this.ctx.stroke();
 
-        // Platforms
-        this.ctx.beginPath();
-        // this.ctx.strokeStyle = this.platformColor;
-        this.ctx.lineWidth = this.lineWidth;
-        this.ctx.moveTo(this.drawX, this.y);
-        this.ctx.lineTo(this.drawEndX, this.y);
-        this.ctx.stroke();
+        // // Platforms
+        // this.ctx.beginPath();
+        // // this.ctx.strokeStyle = this.platformColor;
+        // this.ctx.lineWidth = this.lineWidth;
+        // this.ctx.moveTo(this.drawX, this.y);
+        // this.ctx.lineTo(this.drawEndX, this.y);
+        // this.ctx.stroke();
     }
     // Lexman Edit START //
     checkCollision(){
@@ -78,11 +81,46 @@ export class PlatformHandler{
                 enemy.x < this.playerStartX + this.playerWidth && 
                 enemy.x + enemy.width > this.playerStartX &&
                 enemy.y < this.playerStartY + this.playerHeight &&
-                enemy.y + enemy.height > this.playerStartY)
+                enemy.y + enemy.height > this.playerStartY &&(
+                this.game.player.currentState.player.frameX !== 4 ||
+                this.game.player.currentState.player.frameX !== 5 ||
+                this.game.player.currentState.player.frameX !== 6) &&
+                this.game.player.currentState.state !== 'DIE'
+                )
                 {
                     //collision
-                    enemy.markedForDeletion = true;   
+                    // alert('u killed bro');
+                    this.game.player.setState(states.DIE)
                 }
+        
+            else if ( // Monkey turning right
+                this.game.player.direction === 'right' &&
+                enemy.x < this.game.player.monkeyX + this.game.player.width &&
+                enemy.x + enemy.width > (this.game.player.monkeyX + this.game.player.width/2) &&
+                enemy.y < this.playerStartY + this.playerHeight &&
+                enemy.y + enemy.height > this.playerStartY &&
+                this.game.player.currentState.state === 'GIVING_BANANA' &&(
+                this.game.player.currentState.player.frameX === 4 ||
+                this.game.player.currentState.player.frameX === 5 ||
+                this.game.player.currentState.player.frameX === 6)
+            ){
+                    console.log('touched')
+                    enemy.markedForDeletion = true;   
+            } 
+            else if (// Monkey turning left
+                this.game.player.direction === 'left' &&
+                enemy.x + enemy.width < this.game.player.monkeyX + this.game.player.width/2 &&
+                enemy.x > (this.game.player.monkeyX - this.game.player.width) &&
+                enemy.y < this.playerStartY + this.playerHeight &&
+                enemy.y + enemy.height > this.playerStartY &&
+                this.game.player.currentState.state === 'GIVING_BANANA' &&(
+                this.game.player.currentState.player.frameX === 4 ||
+                this.game.player.currentState.player.frameX === 5 ||
+                this.game.player.currentState.player.frameX === 6)
+            ){
+               console.log ('left touch');
+                enemy.markedForDeletion = true;}   
+            // console.log(this.game.player.currentState.player.frameX);
             });
         }
     }
@@ -216,8 +254,6 @@ export const platformLocations = [ // Write platforms with same X values from to
         width: 195,
         color: '#ffc0cb',
     },
-    ////////////////////////////
-    // Section 4 (DOWNSTAIRS) //
-    ////////////////////////////
+
 ]
 

@@ -16,7 +16,7 @@ window.addEventListener('load', function(){
     
     class Game {
         constructor(width, height){
-            
+            this.totalEnemies = 0;
             this.width = canvas.width;
             this.height = canvas.height;
             this.groundMargin = 600; // eins og #player { margin-bottom: 74px;}
@@ -45,9 +45,9 @@ window.addEventListener('load', function(){
             // this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
             });
             // console.log(this.allPlatforms);
-            /// TESTING ONE ENEMY ///
-            this.enemies.push(new SnakeEnemy(this));
-            /// TESTING ONE ENEMY ///
+            // /// TESTING ONE ENEMY ///
+            // this.enemies.push(new SnakeEnemy(this));
+            // /// TESTING ONE ENEMY ///
         }
         update(deltaTime){
             let tempArray = [];
@@ -59,7 +59,7 @@ window.addEventListener('load', function(){
             // Draw background //
             this.layer.update();
 
-            // handle enemies (lexa-edit) START //
+            // handle enemies (lexa-edit) START // 
             if (this.enemyTimer > this.enemyInterval){
                 this.addEnemy();
                 this.enemyTimer = 0;
@@ -90,15 +90,23 @@ window.addEventListener('load', function(){
         }
         // add enemies to list (Lexi-Edit) START //
         addEnemy(){
-            // let enemyType = Math.floor(Math.random() * 3);
-            // // console.log(enemyType);
             
-            // if (enemyType === 1){
-            //     // this.enemies.push(new FlyingEnemy(this));
-            // }
-            // else if(enemyType === 2){
-            //     this.enemies.push(new SnakeEnemy(this));
-            // }
+            if(this.player.x <= 9050-this.width){
+                this.totalEnemies++;
+                let enemyType = Math.floor(Math.random() * 2);
+                // console.log(enemyType);
+                // console.log(enemyType);
+                
+                if (enemyType === 1){
+                    this.enemies.push(new FlyingEnemy(this));
+                }
+                else{
+                    this.enemies.push(new SnakeEnemy(this));
+                }
+            }
+            
+            // console.log('enemy number '+this.totalEnemies+' spawned');
+            // 
             
             
         }

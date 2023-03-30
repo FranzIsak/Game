@@ -10,6 +10,7 @@ export class Layer {
         this.playerWidth = this.player.width;
         this.playerHeight = this.player.height;
         
+        this.totalOffsetY = 0;
         // Start Location of background image
         this.x = this.player.x;
         this.y = -550;
