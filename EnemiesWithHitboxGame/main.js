@@ -78,7 +78,7 @@ window.addEventListener('load', function(){
             this.allPlatforms.forEach(platform => {
                 platform.draw();
             });
-            //Draw enemies on canvas (Lexi-Edit)
+        //Draw enemies on canvas (Lexi-Edit)
             this.enemies.forEach(enemy =>{
                 enemy.draw(context);
             });

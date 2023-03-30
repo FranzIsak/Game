@@ -4,7 +4,8 @@ import { InputHandler } from "./library/input.js";
 import { Layer } from "./library/background.js";
 import { platformLocations, PlatformHandler } from "./library/platforms.js";
 import { ChangeGameFps } from "./library/htmlHandler.js";
-
+//import enemy types from enemies (Lexi-Edit)
+import { FlyingEnemy, BossEnemy, SnakeEnemy } from "./library/enemies.js";
 
 
 window.addEventListener('load', function(){
@@ -15,6 +16,7 @@ window.addEventListener('load', function(){
     
     class Game {
         constructor(width, height){
+            
             this.width = canvas.width;
             this.height = canvas.height;
             this.groundMargin = 600; // eins og #player { margin-bottom: 74px;}
@@ -22,6 +24,17 @@ window.addEventListener('load', function(){
             this.player = new Player(this);
             this.layer = new Layer(this);
             this.input = new InputHandler(this);
+
+            //add enemis in array(Lexi-Edit)
+            this.enemies = [];
+            this.enemyTimer = 0;
+            //enemy spawn timer(Lexi-Edit)
+            this.enemyInterval = 2000;
+            // this.layer = new Layer(this);
+
+            this.enemyCounter = 0;
+            // console.log("wtf"+this.enemyCounter);
+
             this.gameFps = 50;
             this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
@@ -32,6 +45,9 @@ window.addEventListener('load', function(){
             // this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
             });
             // console.log(this.allPlatforms);
+            /// TESTING ONE ENEMY ///
+            this.enemies.push(new SnakeEnemy(this));
+            /// TESTING ONE ENEMY ///
         }
         update(deltaTime){
             let tempArray = [];
@@ -42,6 +58,21 @@ window.addEventListener('load', function(){
             this.player.update(this.input.keys, deltaTime);
             // Draw background //
             this.layer.update();
+
+            // handle enemies (lexa-edit) START //
+            if (this.enemyTimer > this.enemyInterval){
+                this.addEnemy();
+                this.enemyTimer = 0;
+            } else {
+                this.enemyTimer += deltaTime;
+            }
+            this.enemies.forEach(enemy =>{
+                enemy.update(deltaTime);
+                //delete enemy
+                if (enemy.markedForDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1);
+                
+            })
+            // handle enemies (lexa-edit) STOP //
         }
         draw(context){
             // Draw background //
@@ -51,7 +82,27 @@ window.addEventListener('load', function(){
                 platform.draw();
             });
             this.player.draw(context, this.layer);
+
+            //Draw enemies on canvas (Lexi-Edit)
+            this.enemies.forEach(enemy =>{
+                enemy.draw(context);
+            });
         }
+        // add enemies to list (Lexi-Edit) START //
+        addEnemy(){
+            // let enemyType = Math.floor(Math.random() * 3);
+            // // console.log(enemyType);
+            
+            // if (enemyType === 1){
+            //     // this.enemies.push(new FlyingEnemy(this));
+            // }
+            // else if(enemyType === 2){
+            //     this.enemies.push(new SnakeEnemy(this));
+            // }
+            
+            
+        }
+        // add enemies to list (Lexi-Edit) STOP //
     }
 
     const game = new Game(canvas.width, canvas.height);

@@ -22,6 +22,9 @@ export class PlatformHandler{
         this.platformColor = platformInfo.color;
     }
     update(){
+        //update hit check LEXI 
+        this.checkCollision();
+
         this.y += this.background.getYMovement();
         this.drawX = - this.player.x + this.x;
         this.drawEndX = this.drawX + this.width
@@ -52,24 +55,39 @@ export class PlatformHandler{
     }
     draw(){
         // Rectangle around monkey
-        // this.ctx.beginPath();
-        // // this.ctx.strokeStyle = 'Purple';
-        // this.ctx.lineWidth = this.lineWidth;
-        // this.startY = this.player.y;
-        // // this.realY = this.player.y+this.player.height;
-        // this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
-        // this.ctx.stroke();
+        this.ctx.beginPath();
+        // this.ctx.strokeStyle = 'Purple';
+        this.ctx.lineWidth = this.lineWidth;
+        this.startY = this.player.y;
+        // this.realY = this.player.y+this.player.height;
+        this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
+        this.ctx.stroke();
 
-        // // Platforms
-        // this.ctx.beginPath();
-        // // this.ctx.strokeStyle = this.platformColor;
-        // this.ctx.lineWidth = this.lineWidth;
-        // this.ctx.moveTo(this.drawX, this.y);
-        // this.ctx.lineTo(this.drawEndX, this.y);
-        // this.ctx.stroke();
+        // Platforms
+        this.ctx.beginPath();
+        // this.ctx.strokeStyle = this.platformColor;
+        this.ctx.lineWidth = this.lineWidth;
+        this.ctx.moveTo(this.drawX, this.y);
+        this.ctx.lineTo(this.drawEndX, this.y);
+        this.ctx.stroke();
     }
-}
-
+    // Lexman Edit START //
+    checkCollision(){
+        this.game.enemies.forEach(enemy => {
+            if (
+                enemy.x < this.playerStartX + this.playerWidth && 
+                enemy.x + enemy.width > this.playerStartX &&
+                enemy.y < this.playerStartY + this.playerHeight &&
+                enemy.y + enemy.height > this.playerStartY)
+                {
+                    //collision
+                    enemy.markedForDeletion = true;   
+                }
+            });
+        }
+    }
+    // Lexman Edit START //
+    
 // Export to main.js to use it when defining a class item for PlatformHandler
 export const platformLocations = [ // Write platforms with same X values from top Y to bottom Y
     ///////////////

@@ -1,6 +1,5 @@
 class Enemy {
     constructor(){
-        
         this.frameX = 0;
         this.frameY = 0;
         this.fps = 20;
@@ -8,11 +7,12 @@ class Enemy {
         this.frameTimer = 0;
         this.markedForDeletion = false;
         this.speed = document.getElementById('monkeySpeed');
-        console.log(this.speed);
+        // console.log(this.speed);
     }
     update(deltaTime){
         //movement
         // þar að breyta hrað svo óvinir hreyfast með bakgrunni s.s. +this.game.speed
+        console.log(this.speedX);
         this.x -= this.speedX;
         this.y += this.speedY;
         if (this.frameTimer > this.frameInterval){
