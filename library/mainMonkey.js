@@ -65,8 +65,9 @@ export class Player{
             // Check if monkey is dead
             if(this.frameX === this.maxFrame){
                 location.reload();
-                alert('Monkey is dead');
-                this.frameX++;
+                alert('Monkey is dead')
+                throw new Error("Game Over");
+
             }
         } 
         // Check current input to see if it matches the current state if monkey is alive
@@ -149,9 +150,9 @@ export class Player{
 
     onGround(){
         if(this.y === this.mainGround){
-            alert('U dead homie')
-            window.location.href = "https://verkefni.franzisak.is/";
-            this.mainGround = 0;
+            location.reload();
+            alert('You dead homie')
+            throw new Error("Game Over");
         }
         return this.y >= this.currentGround ;
     }
