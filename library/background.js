@@ -46,7 +46,7 @@ export class Layer {
         // console.log(this.playerX);
 
         if(this.playerX < -14250){
-            window.location.href = "https://verkefni.franzisak.is/pages/gameOver.html";
+            window.location.href = "pages/gameOver.html";
         }
     }
     draw(context){

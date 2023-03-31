@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="gameOverStyle.css">
     <title>Game Over!</title>
-    <style>
-        body, video{
-            overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-            box-sizing: border-box;
-            margin: 0;
-        }
-    </style>
+ 
 </head>
-<body>
-    <video controls autoplay>
-  <source src="/videos/video.mp4" type="video/mp4">
-  <source src="/videos/video.mp4" type="video/ogg">
-  Your browser does not support the video tag.
+<body onload="onLoadBody()">
+    <div class="container">
+        <h1>Victory</h1>
+        <input id="userName" type="text" value="" placeholder="Your name..">
+        <input id="userScore" type="text" value="" placeholder="Your score..">
+        <button onclick="submitUserName()" id="submit"type="button" value="Submit">Submit</button>
+    </div>
+  <script src="gameOver.js"></script>
 </video>
 </body>
 </html>

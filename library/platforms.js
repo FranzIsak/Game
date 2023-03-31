@@ -90,7 +90,7 @@ export class PlatformHandler{
                 {
                     //collision
                     // alert('u killed bro');
-                    this.game.player.setState(states.DIE)
+                   // this.game.player.setState(states.DIE)
                 }
         
             else if ( // Monkey turning right
@@ -105,7 +105,8 @@ export class PlatformHandler{
                 this.game.player.currentState.player.frameX === 6)
             ){
                     console.log('touched')
-                    enemy.markedForDeletion = true;   
+                    enemy.markedForDeletion = true;
+                    this.game.score++;  
             } 
             else if (// Monkey turning left
                 this.game.player.direction === 'left' &&
@@ -119,7 +120,10 @@ export class PlatformHandler{
                 this.game.player.currentState.player.frameX === 6)
             ){
                console.log ('left touch');
-                enemy.markedForDeletion = true;}   
+                enemy.markedForDeletion = true;
+                this.game.score++;  
+            }  
+                 
             // console.log(this.game.player.currentState.player.frameX);
             });
         }

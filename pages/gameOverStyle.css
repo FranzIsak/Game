@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
+
+body{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: poppins;
+    
+    background-image: url("../images/Background/aiBackgrounds/victoryBackground.png");
+ 
+}
+
+h1{
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 120px;
+    color: rgb(255, 255, 43);
+    margin: 0px;
+    
+
+}
+.container{
+    margin-top: 20vh;
+    width: 100vw;
+    height: 30vh;
+    display: grid;
+    grid-template-rows: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+input[id="userName"], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+input[id="userScore"], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+button {
+    background-color: #06660a; /* Green */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }

@@ -6,6 +6,7 @@ import { platformLocations, PlatformHandler } from "./library/platforms.js";
 import { ChangeGameFps } from "./library/htmlHandler.js";
 //import enemy types from enemies (Lexi-Edit)
 import { FlyingEnemy, BossEnemy, SnakeEnemy } from "./library/enemies.js";
+import { UI } from "./library/UI.js";
 
 
 window.addEventListener('load', function(){
@@ -24,6 +25,14 @@ window.addEventListener('load', function(){
             this.player = new Player(this);
             this.layer = new Layer(this);
             this.input = new InputHandler(this);
+            //Lexa-Edit
+            this.UI = new UI(this);
+
+
+            this.score = 0;
+           
+            this.fontColor = "black";
+
 
             //add enemis in array(Lexi-Edit)
             this.enemies = [];
@@ -82,11 +91,14 @@ window.addEventListener('load', function(){
                 platform.draw();
             });
             this.player.draw(context, this.layer);
+            //Draw UI on canvas (Lexi-Edit)
+            
 
             //Draw enemies on canvas (Lexi-Edit)
             this.enemies.forEach(enemy =>{
                 enemy.draw(context);
             });
+            this.UI.draw(context);
         }
         // add enemies to list (Lexi-Edit) START //
         addEnemy(){
@@ -132,3 +144,4 @@ window.addEventListener('load', function(){
     }
     animate(0);
 });
+
