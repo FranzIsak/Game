@@ -1,3 +1,7 @@
+// Franz Edit
+const score = localStorage.getItem('score');
+// Franz Edit
+
 
 const highScore = {
     };
@@ -13,10 +17,12 @@ function submitUserName(){
 
 
 function onLoadBody() {
-    const currentScore = 50;
+    const currentScore = score;
     scorePrint = document.getElementById('userScore');
     scorePrint.readOnly = true;
+    // Franz Edit
     scorePrint.value = "Your score was "+currentScore;
+    // Franz Edit
 
 
 } 

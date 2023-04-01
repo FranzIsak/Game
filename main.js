@@ -7,6 +7,7 @@ import { ChangeGameFps } from "./library/htmlHandler.js";
 //import enemy types from enemies (Lexi-Edit)
 import { FlyingEnemy, BossEnemy, SnakeEnemy } from "./library/enemies.js";
 import { UI } from "./library/UI.js";
+localStorage['myScore'] = '0'; // only strings
 
 
 window.addEventListener('load', function(){

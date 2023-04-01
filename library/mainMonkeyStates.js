@@ -1,3 +1,4 @@
+
 export const states = {
     IDLE: 0,
     RUNNING: 1,
@@ -142,7 +143,6 @@ export class GivingBanana extends State {
         this.player.frameY = 2;
     }
     handleInput(input){
-
         if (this.player.onGround() && input.includes('ArrowUp')) this.player.vy -= this.player.vyDefault ;
         
 

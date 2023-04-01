@@ -9,19 +9,19 @@ export class Layer {
         this.playerY = this.player.y;
         this.playerWidth = this.player.width;
         this.playerHeight = this.player.height;
-        
+
         this.totalOffsetY = 0;
         // Start Location of background image
         this.x = this.player.x;
         this.y = -550;
-        
+
         // End of background
         this.endOfLevel = 13000;
 
         this.mainBackground = MainBackground;
         this.pinkBackground = PinkBackground;
         this.cliffBackground = CliffBackground;
-        
+
     }
     update(){
         // console.log(this.playerX);
@@ -34,7 +34,7 @@ export class Layer {
                 this.player.y = 446;
             }
             if(this.player.x > this.endOfLevel){
-                
+
             } else {
                 this.playerX = -this.player.x;
             }
@@ -42,10 +42,12 @@ export class Layer {
             this.playerX = -this.player.x;
             this.playerY = -this.player.y;
         }
-        
+
         // console.log(this.playerX);
 
-        if(this.playerX < -14250){
+        // if(this.playerX < -14250){
+        if(this.playerX < -2000){
+            localStorage.setItem('score', this.game.score/19);
             window.location.href = "pages/gameOver.html";
         }
     }
@@ -54,7 +56,7 @@ export class Layer {
         // Ef Apinn er ekki búinn að hoppa niður í enda level 1
         if(this.player.x < this.endOfLevel){
             this.context.drawImage(this.cliffBackground, this.playerX, this.y);
-        } 
+        }
         // Ef apinn er búinn að hoppa niður þá festist background
         else {
             this.context.drawImage(this.cliffBackground, -this.endOfLevel, this.y);
