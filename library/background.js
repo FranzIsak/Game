@@ -45,8 +45,7 @@ export class Layer {
 
         // console.log(this.playerX);
 
-        // if(this.playerX < -14250){
-        if(this.playerX < -2000){
+        if(this.playerX < -14250){
             localStorage.setItem('score', this.game.score/19);
             window.location.href = "pages/gameOver.html";
         }
