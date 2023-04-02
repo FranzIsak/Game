@@ -55,9 +55,6 @@ class Enemy {
         if(this.direction === 'right') this.x += this.speedX - this.playerDistanceFromLastPointX;
         else if(this.direction === 'left') this.x -= this.speedX + this.playerDistanceFromLastPointX;
 
-
-        // this.x -= this.speedX + this.playerDistanceFromLastPointX;
-        // this.y += this.playerDistanceFromLastPointY;
         if (this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
             if (this.frameX < this.maxFrame) this.frameX++;
@@ -73,10 +70,7 @@ class Enemy {
     }
     draw(context){
         //hitbox enemies
-        // context.strokeRect(this.x, this.y, this.width, this.height);
-
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y,this.width,this.height)
-        //context.strokeRect(this.frameX * this.width,100,1000,100)
     }
 }
 
@@ -84,13 +78,11 @@ export class FlyingEnemy extends Enemy {
     constructor(game){
         // Passa game class item til Super til að accessa Player Franz Edit //
         super(game);
-        /////////////////////////
         this.direction = 'left';
         this.game = game;
         this.width = 266;
         this.height = 188;
         this.x = this.game.width + Math.random() *this.game.width *0.05; 
-        // random speed between 1-2px +Math.random() *this.game.width *0.05;
         this.y = Math.random() *this.game.height * 0.2;
         this.speedX = 5;
         this.speedY = 0;
@@ -98,17 +90,16 @@ export class FlyingEnemy extends Enemy {
         this.image = enemyFlyer;
     }
     update(deltaTime){
+        
         super.update(deltaTime);
     }
 
 }
 
-export class SnakeEnemy extends Enemy {
+export class SnakeEnemy extends Enemy { // Ormanir
     constructor(game){
         // Passa game class item til Super til að accessa Player Franz Edit //
         super(game);
-        // this.enemyOnGround = true;
-        /////////////////////////
         this.game = game;
         this.width = 160.6; // Original 79
         this.height = 120; // Original 60
@@ -127,8 +118,7 @@ export class SnakeEnemy extends Enemy {
         this.playerCurrentLocationX = this.playerStartLocationX;
         
         // Find platform for enemy //
-        // this.y;
-        this.x = Math.floor(Math.random()*this.game.width+this.game.width);//+this.game.monkeyX;
+        this.x = Math.floor(Math.random()*this.game.width+this.game.width);
         this.y = 0;
         this.counter = 0;
         for(let platformIndex = 0; platformIndex < platformLocations.length; platformIndex++){
@@ -140,14 +130,14 @@ export class SnakeEnemy extends Enemy {
             // Check if enemy is on same X as a platform
             if(this.minX < (this.x+this.playerCurrentLocationX) && (this.maxX) > (this.x+this.playerCurrentLocationX+this.width)){
                 // Put enemy on same Y as platform if it's not the bottom platform (under the canvas)
-                if(platformLocations[platformIndex].y-this.height < this.game.player.mainGround){
+                if(platformLocations[platformIndex].y-this.height < this.game.player.mainGround && platformLocations[platformIndex].width > 200){
                     this.y = platformLocations[platformIndex].y-this.height;
                     // console.log("y"+this.game.totalEnemies+" => "+(this.y));
                     break;
                 } 
             } 
             // If no Platform was found, then change this.x and try again
-            if(platformIndex === platformLocations.length-1 && this.y === 0 && this.counter < 10){
+            if(platformIndex === platformLocations.length-1 && this.y === 0 && this.counter < 25){
                 // alert(this.y);
                 this.counter++;
                 this.x = Math.floor(Math.random()*this.game.width+this.game.width);
@@ -165,12 +155,10 @@ export class BossEnemy extends Enemy {
     constructor(game){
         // Passa game class item til Super til að accessa Player Franz Edit //
         super(game);
-        /////////////////////////
         this.game = game;
         this.width = 292;
         this.height = 410;
         this.x = 900;
-        // random speed between 1-2px +Math.random() *this.game.width *0.05;
         this.y = 360;
         this.speedX = 0.1;
         this.speedY = 0;

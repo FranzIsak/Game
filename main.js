@@ -1,4 +1,4 @@
-// import (MainMonkey) from 
+// import (MainMonkey) from
 import { Player } from "./library/mainMonkey.js";
 import { InputHandler } from "./library/input.js";
 import { Layer } from "./library/background.js";
@@ -9,15 +9,55 @@ import { FlyingEnemy, BossEnemy, SnakeEnemy } from "./library/enemies.js";
 import { UI } from "./library/UI.js";
 localStorage['myScore'] = '0'; // only strings
 
+var request = new XMLHttpRequest();
+request.open("GET", "./gameMusic2.mp3", true);
+request.responseType = "blob";    
+
+
 
 window.addEventListener('load', function(){
+    
+
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = 1400; // Adjust canvas width with the #mainCanvas
     canvas.height = 788; // Adjust canvas height with the #mainCanvas
-    
+
     class Game {
-        constructor(width, height){
+        constructor(){
+            this.backgroundMusic = null;
+            request.onload = () => {
+                if (request.status == 200) {
+                    this.backgroundMusic = new Audio(URL.createObjectURL(request.response));
+                    this.backgroundMusic.load();
+                    this.backgroundMusic.play();
+                }
+            };
+            request.send();
+
+            
+            
+
+            // this.backgroundMusic = new Audio("gameMusic2.mp3");
+            // this.backgroundMusic.loop = true;
+            // this.backgroundMusic.volume = 0.3;
+            // if(localStorage['loading'] === 'false'){
+            //     alert('loading complete');
+            //     this.backgroundMusic.addEventListener("canplaythrough", () => {
+            //         this.backgroundMusic.play();
+            //     });
+                
+            // } else{
+            //     alert('loading');
+            //     this.backgroundMusic.addEventListener("loadedmetadata", () => {
+            //         this.backgroundMusic.play();
+            //     });
+            //     localStorage['loading'] = 'false'; // only strings
+            // }
+            
+            
+            
+
             this.totalEnemies = 0;
             this.width = canvas.width;
             this.height = canvas.height;
@@ -31,33 +71,25 @@ window.addEventListener('load', function(){
 
 
             this.score = 0;
-           
+
             this.fontColor = "black";
 
 
             //add enemis in array(Lexi-Edit)
             this.enemies = [];
             this.enemyTimer = 0;
-            //enemy spawn timer(Lexi-Edit)
             this.enemyInterval = 2000;
-            // this.layer = new Layer(this);
 
             this.enemyCounter = 0;
-            // console.log("wtf"+this.enemyCounter);
 
-            this.gameFps = 50;
+            this.gameFps = 70;
             this.changeGameFps = new ChangeGameFps(this)
             this.allPlatforms = [];
             platformLocations.forEach(platform => {
-            // ???
             this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform, this.layer));
-            // ???
-            // this.allPlatforms.push(new PlatformHandler(this, ctx, this.player, platform));
             });
-            // console.log(this.allPlatforms);
-            // /// TESTING ONE ENEMY ///
-            // this.enemies.push(new SnakeEnemy(this));
-            // /// TESTING ONE ENEMY ///
+
+            
         }
         update(deltaTime){
             let tempArray = [];
@@ -69,7 +101,7 @@ window.addEventListener('load', function(){
             // Draw background //
             this.layer.update();
 
-            // handle enemies (lexa-edit) START // 
+            // handle enemies (lexa-edit) START //
             if (this.enemyTimer > this.enemyInterval){
                 this.addEnemy();
                 this.enemyTimer = 0;
@@ -80,20 +112,14 @@ window.addEventListener('load', function(){
                 enemy.update(deltaTime);
                 //delete enemy
                 if (enemy.markedForDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1);
-                
+
             })
             // handle enemies (lexa-edit) STOP //
         }
         draw(context){
             // Draw background //
             this.layer.draw(ctx);
-
-            this.allPlatforms.forEach(platform => {
-                platform.draw();
-            });
             this.player.draw(context, this.layer);
-            //Draw UI on canvas (Lexi-Edit)
-            
 
             //Draw enemies on canvas (Lexi-Edit)
             this.enemies.forEach(enemy =>{
@@ -103,13 +129,10 @@ window.addEventListener('load', function(){
         }
         // add enemies to list (Lexi-Edit) START //
         addEnemy(){
-            
-            if(this.player.x <= 9050-this.width){
+            console.log(this.enemies)
+            if(this.player.x <= 9050-this.width && this.enemies.length <= 3){
                 this.totalEnemies++;
                 let enemyType = Math.floor(Math.random() * 2);
-                // console.log(enemyType);
-                // console.log(enemyType);
-                
                 if (enemyType === 1){
                     this.enemies.push(new FlyingEnemy(this));
                 }
@@ -117,21 +140,22 @@ window.addEventListener('load', function(){
                     this.enemies.push(new SnakeEnemy(this));
                 }
             }
-            
-            // console.log('enemy number '+this.totalEnemies+' spawned');
-            // 
-            
-            
+
+
+        }
+        pauseMusic(){
+            if (this.backgroundMusic) {
+                this.backgroundMusic.pause();
+            }
         }
         // add enemies to list (Lexi-Edit) STOP //
     }
 
-    const game = new Game(canvas.width, canvas.height);
+    const game = new Game();
     // FPS control
     let lastTime = 0;
-    
     function animate(timeStamp){
-        // FPS control        
+        // FPS control
         const deltaTime = timeStamp - lastTime;
         if(deltaTime >= 1000 / game.gameFps){
             ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -140,7 +164,7 @@ window.addEventListener('load', function(){
             lastTime = timeStamp;
             const fps = Math.round(1000 / deltaTime);
             document.getElementById("fpsValue").innerText = fps;
-        } 
+        }
         requestAnimationFrame(animate);
     }
     animate(0);

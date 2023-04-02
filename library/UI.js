@@ -11,6 +11,6 @@ export class UI {
         context.textAlign = "left";
         context.fillStyle = this.game.fontColor;
         //drawing score to left of game
-        context.fillText("Score: "+this.game.score/19, 20,50);
+        context.fillText("Score: "+this.game.score, 20,50);
     }
 }

@@ -1,6 +1,7 @@
 export class Layer {
     constructor(game) {
         this.game = game;
+        this.gameOver = false;
         this.canvasWidth = this.game.width;
         this.canvasHeight = this.game.height;
         // Player information
@@ -24,7 +25,6 @@ export class Layer {
 
     }
     update(){
-        // console.log(this.playerX);
         // If Player is falling on the end of level 1 then move background and Player
         if(this.player.x > 9055 && this.player.y >= 480 && this.y >= -1158){//-1158){
             this.y-= this.player.vyDefault;
@@ -42,12 +42,12 @@ export class Layer {
             this.playerX = -this.player.x;
             this.playerY = -this.player.y;
         }
-
-        // console.log(this.playerX);
-
-        if(this.playerX < -14250){
-            localStorage.setItem('score', this.game.score/19);
-            window.location.href = "pages/gameOver.html";
+        if(this.playerX < -14120){
+            if(!this.gameOver){
+                localStorage.setItem('score', this.game.score);
+                window.location.href = "endScreen";
+                this.gameOver = true;
+            }
         }
     }
     draw(context){

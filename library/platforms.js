@@ -1,17 +1,17 @@
 /** @type {HTMLCanvasElement} **/
 
-// ???
-import { Layer } from './background.js';
+
+
 import { states } from './mainMonkeyStates.js';
 
-// ???
+
 
 // Pull each item inside platformLocations from main.js that was exported from platforms.js
 export class PlatformHandler{
     constructor(game, ctx, player, platformInfo, background){
-        // ???
+
         this.background = background;
-        // ???
+
 
         this.game = game;
         this.ctx = ctx
@@ -24,6 +24,7 @@ export class PlatformHandler{
         this.platformColor = platformInfo.color;
     }
     update(){
+
         //update hit check LEXI 
         this.checkCollision();
 
@@ -56,24 +57,6 @@ export class PlatformHandler{
     
 
     }
-    draw(){
-        // // Rectangle around monkey
-        // this.ctx.beginPath();
-        // // this.ctx.strokeStyle = 'Purple';
-        // this.ctx.lineWidth = this.lineWidth;
-        // this.startY = this.player.y;
-        // // this.realY = this.player.y+this.player.height;
-        // this.ctx.rect(this.playerStartX, this.playerStartY, this.playerWidth, this.playerHeight);
-        // this.ctx.stroke();
-
-        // // Platforms
-        // this.ctx.beginPath();
-        // // this.ctx.strokeStyle = this.platformColor;
-        // this.ctx.lineWidth = this.lineWidth;
-        // this.ctx.moveTo(this.drawX, this.y);
-        // this.ctx.lineTo(this.drawEndX, this.y);
-        // this.ctx.stroke();
-    }
     // Lexman Edit START //
     checkCollision(){
         this.game.enemies.forEach(enemy => {
@@ -89,8 +72,7 @@ export class PlatformHandler{
                 )
                 {
                     //collision
-                    // alert('u killed bro');
-                   // this.game.player.setState(states.DIE)
+                   this.game.player.setState(states.DIE)
                 }
         
             else if ( // Monkey turning right
@@ -104,9 +86,15 @@ export class PlatformHandler{
                 this.game.player.currentState.player.frameX === 5 ||
                 this.game.player.currentState.player.frameX === 6)
             ){
-                    console.log('touched')
+                if(!enemy.markedForDeletion){
+                    this.scoreSound = new Audio("/audio/enemyStab2.wav");
+                    this.scoreSound.volume = 1;
+                    this.scoreSound.addEventListener("loadedmetadata", () => {
+                        this.scoreSound.play();
+                    });
                     enemy.markedForDeletion = true;
                     this.game.score++;  
+                }
             } 
             else if (// Monkey turning left
                 this.game.player.direction === 'left' &&
@@ -119,9 +107,15 @@ export class PlatformHandler{
                 this.game.player.currentState.player.frameX === 5 ||
                 this.game.player.currentState.player.frameX === 6)
             ){
-               console.log ('left touch');
-                enemy.markedForDeletion = true;
-                this.game.score++;  
+               if(!enemy.markedForDeletion){
+                this.scoreSound = new Audio("/audio/enemyStab2.wav");
+                    this.scoreSound.volume = 1;
+                    this.scoreSound.addEventListener("loadedmetadata", () => {
+                        this.scoreSound.play();
+                    });
+                    enemy.markedForDeletion = true;
+                    this.game.score++;  
+                }
             }  
                  
             // console.log(this.game.player.currentState.player.frameX);

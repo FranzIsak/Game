@@ -54,11 +54,10 @@ export class Running extends State {
         this.player.frameY = 1;
     }
     handleInput(input){
-        // TESTING JUMP STAB ???
         if (input.includes('b')) this.player.setState(states.GIVING_BANANA);
-        // TESTING JUMP STAB ???
         else if (input.includes('ArrowUp')) this.player.setState(states.JUMPING);
         else if (input.includes('ArrowDown')) {
+            this.player.slideSound = true;
             this.player.slideSpeed = this.player.maxSpeed * 2;
             this.player.setState(states.CROUCHING);
         }
@@ -82,11 +81,15 @@ export class Jumping extends State {
         this.player.maxFrame = 5;
         this.player.frameX = 0;
         this.player.frameY = 2;
+
+        this.jumpSound = new Audio("/audio/jump1.mp3");
+        this.jumpSound.volume = 0.5;
+        this.jumpSound.addEventListener("loadedmetadata", () => {
+            this.jumpSound.play();
+        });
     }
     handleInput(input){
-        // TESTING JUMP STAB ???
         if (input.includes('b')) this.player.setState(states.GIVING_BANANA);
-        // TESTING JUMP STAB ???
         else if (this.player.vy > this.player.weight){
             this.player.setState(states.FALLING);
         } else if(this.player.onGround()){
@@ -126,6 +129,14 @@ export class Crouching extends State {
         this.player.frameY = 0;
     }
     handleInput(input){
+        if(this.player.slideSpeed !== 0 && this.player.slideSound){
+            this.slideSound = new Audio("/audio/slide1.wav");
+            this.slideSound.volume = 1;
+            this.slideSound.addEventListener("loadedmetadata", () => {
+                this.slideSound.play();
+            });
+            this.player.slideSound = false;
+        }
         if(!input.includes('ArrowDown')) this.player.setState(states.IDLE);
     }
 }
@@ -141,12 +152,24 @@ export class GivingBanana extends State {
         this.player.frameX = 0;
         this.player.maxFrame = 8;
         this.player.frameY = 2;
+        this.stabSound = new Audio("/audio/stab2.wav");
+        this.stabSound.volume = 0.6;
+        this.stabSound.addEventListener("loadedmetadata", () => {
+            this.stabSound.play();
+        });
     }
     handleInput(input){
         if (this.player.onGround() && input.includes('ArrowUp')) this.player.vy -= this.player.vyDefault ;
         
 
-        if(input.includes('b') && this.player.frameX === this.player.maxFrame) this.player.frameX = 0;
+        if(input.includes('b') && this.player.frameX === this.player.maxFrame){
+            this.player.frameX = 0;
+            this.stabSound = new Audio("/audio/stab2.wav");
+            this.stabSound.volume = 0.6;
+            this.stabSound.addEventListener("loadedmetadata", () => {
+                this.stabSound.play();
+            });
+        }
         else if(this.player.frameX >= this.player.maxFrame) this.player.setState(states.IDLE);
         
     }
@@ -181,9 +204,13 @@ export class Die extends State {
         this.player.frameX = 0;
         this.player.maxFrame = 10;
         this.player.frameY = 4;
+        
+        this.deathSound = new Audio("/audio/death4.mp3");
+        this.deathSound.volume = 0.5;
+        this.deathSound.addEventListener("loadedmetadata", () => {
+            this.deathSound.play();
+        });
     }
     handleInput(input){
-        // if(input.includes(' ') && this.player.frameX === this.player.maxFrame) this.player.frameX = 0;
-        // if(this.player.frameX >= this.player.maxFrame) this.player.setState(states.IDLE);
     }
 }

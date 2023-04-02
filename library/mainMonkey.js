@@ -1,7 +1,6 @@
 /** @type {HTMLCanvasElement} **/
 
 import { Idle, Running, Jumping, Falling, Crouching, GivingBanana, ThrowingBanana, Die } from './mainMonkeyStates.js';
-// import { ChangeMonkeyFps, ChangeMonkeySpeed, ChangeMonkeyWeight } from "./htmlHandler.js";
 
 export class Player{
     constructor(game){
@@ -33,13 +32,7 @@ export class Player{
         this.currentState.enter();
         this.mainGround = 1200;// this.game.height - this.height;
         this.currentGround = this.mainGround;
-        // Change fps with option input
-        // this.changeFps = new ChangeMonkeyFps(this);
-        // Change monkey speed
-        // this.changeMonkeySpeed = new ChangeMonkeySpeed(this);
-        // Change monkey weight
-        // this.changeMonkeySpeed = new ChangeMonkeyWeight(this);
-        // Determine if frames (frameX) should refresh in the end of animation
+        this.slideSoundOn = false;
         this.infiniteLoop;
         this.direction = 'right';
 
@@ -58,15 +51,18 @@ export class Player{
         }
         // Check if monkey is Dying
         if(this.currentState.state === 'DIE'){
+            this.game.pauseMusic();
+
+            this.speed = 0;
             // Check if monkey is dead
             if(this.frameX === this.maxFrame){
                 if(this.DEATH){
                     this.speed = 0;
                 } else if(this.onGround() && this.DEATH===false){
                     this.DEATH = true;
+                    location.reload();
                     alert('Monkey is dead')
                 }
-                // location.reload();
                 // throw new Error("Game Over");
 
             }
@@ -78,30 +74,29 @@ export class Player{
         
         // Horizontal Movement
         this.x += this.speed;
-        if (this.currentState.state === 'CROUCHING' && this.slideSpeed !== 0 && input.includes('ArrowRight') && !input.includes('ArrowLeft')){
-            this.slideSpeed -= this.weight * 0.5;
-            this.speed = this.slideSpeed;
-            if(this.speed < 1 && this.speed > -1){
-                this.slideSpeed = 0;
-                this.speed = 0;
+        if(this.currentState.state === 'CROUCHING'){
+            if (this.slideSpeed !== 0 && input.includes('ArrowRight') /*&& !input.includes('ArrowLeft')*/){
+                this.slideSpeed -= this.weight * 0.5;
+                this.speed = this.slideSpeed;
+                if(this.speed < 1 && this.speed > -1){
+                    this.slideSpeed = 0;
+                    this.speed = 0;
+
+                }
             }
-        }
-        else if (this.currentState.state === 'CROUCHING' && this.slideSpeed !== 0 && !input.includes('ArrowRight') && input.includes('ArrowLeft')){
-            this.slideSpeed -= this.weight * 0.5;
-            this.speed = -this.slideSpeed;
-            if(this.speed < 1 && this.speed > -1){
-                this.slideSpeed = 0;
-                this.speed = 0;
+            else if (this.slideSpeed !== 0 /*&& !input.includes('ArrowRight')*/ && input.includes('ArrowLeft')){
+                this.slideSpeed -= this.weight * 0.5;
+                this.speed = -this.slideSpeed;
+                if(this.speed < 1 && this.speed > -1){
+                    this.slideSpeed = 0;
+                    this.speed = 0;
+                }
             }
         }
             
         
         else if (this.currentState.state !== 'CROUCHING' && 
-            this.currentState.state !== 'DIE' /*&&
-            this.currentState.state !== 'GIVING_BANANA'*/ 
-            
-            
-            ){
+            this.currentState.state !== 'DIE'){
             if (input.includes('ArrowRight') && !input.includes('ArrowLeft')) this.speed = this.maxSpeed;
             else if (input.includes('ArrowLeft') && !input.includes('ArrowRight')) this.speed = -this.maxSpeed;
             else this.speed = 0;
@@ -123,13 +118,13 @@ export class Player{
         if (this.frameTimer > this.frameInterval){
             // console.log(this.frameX)
             this.frameTimer = 0;
-            if (this.frameX < this.maxFrame) this.frameX++;
+            if (this.frameX < this.maxFrame) {
+                this.frameX++;
+            }
             else if(this.infiniteLoop)this.frameX = 0;
         } else {
             this.frameTimer += deltaTime;
         }
-
-        // Check if Player is on ground, 
 
     }
     draw(context, level){

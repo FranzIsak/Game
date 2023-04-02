@@ -4,9 +4,7 @@ body{
     margin: 0;
     box-sizing: border-box;
     font-family: poppins;
-    
-    background-image: url("../images/Background/aiBackgrounds/victoryBackground.png");
- 
+    /* background-image: url("../images/Background/aiBackgrounds/victoryBackgroundwebp.webp"); */
 }
 
 h1{
